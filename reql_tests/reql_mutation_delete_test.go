@@ -25,7 +25,7 @@ type MutationDeleteSuite struct {
 }
 
 func (suite *MutationDeleteSuite) SetupTest() {
-	fmt.Println("Setting up MutationDeleteSuite")
+	suite.T().Log("Setting up MutationDeleteSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -49,7 +49,7 @@ func (suite *MutationDeleteSuite) SetupTest() {
 }
 
 func (suite *MutationDeleteSuite) TearDownSuite() {
-	fmt.Println("Tearing down MutationDeleteSuite")
+	suite.T().Log("Tearing down MutationDeleteSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -61,7 +61,7 @@ func (suite *MutationDeleteSuite) TearDownSuite() {
 }
 
 func (suite *MutationDeleteSuite) TestCases() {
-	fmt.Println("Running MutationDeleteSuite: Tests deletes of selections")
+	suite.T().Log("Running MutationDeleteSuite: Tests deletes of selections")
 
 	tbl := r.DB("test").Table("tbl")
 	_ = tbl // Prevent any noused variable errors
@@ -73,7 +73,7 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0, "replaced": 0, "unchanged": 0, "errors": 0, "skipped": 0, "inserted": 100, }
 		/* tbl.insert([{'id':i} for i in xrange(100)]) */
 
-		fmt.Println("About to run line #7: tbl.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, })\n    }\n    return res\n}()))")
+		suite.T().Log("About to run line #7: tbl.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, })\n    }\n    return res\n}()))")
 
 		runAndAssert(suite.Suite, expected_, tbl.Insert((func() []interface{} {
     res := []interface{}{}
@@ -83,10 +83,10 @@ func (suite *MutationDeleteSuite) TestCases() {
     }
     return res
 }())), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #7")
+		suite.T().Log("Finished running line #7")
 	}
 
 	{
@@ -95,13 +95,13 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.count() */
 
-		fmt.Println("About to run line #19: tbl.Count()")
+		suite.T().Log("About to run line #19: tbl.Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #19")
+		suite.T().Log("Finished running line #19")
 	}
 
 	{
@@ -110,13 +110,13 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 1, "replaced": 0, "unchanged": 0, "errors": 0, "skipped": 0, "inserted": 0, }
 		/* tbl.get(12).delete() */
 
-		fmt.Println("About to run line #24: tbl.Get(12).Delete()")
+		suite.T().Log("About to run line #24: tbl.Get(12).Delete()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Get(12).Delete(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #24")
+		suite.T().Log("Finished running line #24")
 	}
 
 	{
@@ -125,13 +125,13 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Durability option `wrong` unrecognized (options are \"hard\" and \"soft\").")
 		/* tbl.skip(50).delete(durability='wrong') */
 
-		fmt.Println("About to run line #31: tbl.Skip(50).Delete(r.DeleteOpts{Durability: 'wrong', })")
+		suite.T().Log("About to run line #31: tbl.Skip(50).Delete(r.DeleteOpts{Durability: 'wrong', })")
 
 		runAndAssert(suite.Suite, expected_, tbl.Skip(50).Delete(r.DeleteOpts{Durability: "wrong", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #31")
+		suite.T().Log("Finished running line #31")
 	}
 
 	{
@@ -140,13 +140,13 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 49, "replaced": 0, "unchanged": 0, "errors": 0, "skipped": 0, "inserted": 0, }
 		/* tbl.skip(50).delete(durability='soft') */
 
-		fmt.Println("About to run line #38: tbl.Skip(50).Delete(r.DeleteOpts{Durability: 'soft', })")
+		suite.T().Log("About to run line #38: tbl.Skip(50).Delete(r.DeleteOpts{Durability: 'soft', })")
 
 		runAndAssert(suite.Suite, expected_, tbl.Skip(50).Delete(r.DeleteOpts{Durability: "soft", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #38")
+		suite.T().Log("Finished running line #38")
 	}
 
 	{
@@ -155,13 +155,13 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 50, "replaced": 0, "unchanged": 0, "errors": 0, "skipped": 0, "inserted": 0, }
 		/* tbl.delete(durability='hard') */
 
-		fmt.Println("About to run line #45: tbl.Delete(r.DeleteOpts{Durability: 'hard', })")
+		suite.T().Log("About to run line #45: tbl.Delete(r.DeleteOpts{Durability: 'hard', })")
 
 		runAndAssert(suite.Suite, expected_, tbl.Delete(r.DeleteOpts{Durability: "hard", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #45")
+		suite.T().Log("Finished running line #45")
 	}
 
 	{
@@ -170,12 +170,12 @@ func (suite *MutationDeleteSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type SELECTION but found DATUM:")
 		/* r.expr([1, 2]).delete() */
 
-		fmt.Println("About to run line #49: r.Expr([]interface{}{1, 2}).Delete()")
+		suite.T().Log("About to run line #49: r.Expr([]interface{}{1, 2}).Delete()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2}).Delete(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #49")
+		suite.T().Log("Finished running line #49")
 	}
 }

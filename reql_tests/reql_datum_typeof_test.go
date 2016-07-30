@@ -25,7 +25,7 @@ type DatumTypeofSuite struct {
 }
 
 func (suite *DatumTypeofSuite) SetupTest() {
-	fmt.Println("Setting up DatumTypeofSuite")
+	suite.T().Log("Setting up DatumTypeofSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *DatumTypeofSuite) SetupTest() {
 }
 
 func (suite *DatumTypeofSuite) TearDownSuite() {
-	fmt.Println("Tearing down DatumTypeofSuite")
+	suite.T().Log("Tearing down DatumTypeofSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *DatumTypeofSuite) TearDownSuite() {
 }
 
 func (suite *DatumTypeofSuite) TestCases() {
-	fmt.Println("Running DatumTypeofSuite: These tests test the type of command")
+	suite.T().Log("Running DatumTypeofSuite: These tests test the type of command")
 
 
 
@@ -65,13 +65,13 @@ func (suite *DatumTypeofSuite) TestCases() {
 		var expected_ string = "NULL"
 		/* r.expr(null).type_of() */
 
-		fmt.Println("About to run line #5: r.Expr(nil).TypeOf()")
+		suite.T().Log("About to run line #5: r.Expr(nil).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #5")
+		suite.T().Log("Finished running line #5")
 	}
 
 	{
@@ -80,12 +80,12 @@ func (suite *DatumTypeofSuite) TestCases() {
 		var expected_ string = "NULL"
 		/* r.type_of(null) */
 
-		fmt.Println("About to run line #9: r.TypeOf(nil)")
+		suite.T().Log("About to run line #9: r.TypeOf(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.TypeOf(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #9")
+		suite.T().Log("Finished running line #9")
 	}
 }

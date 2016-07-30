@@ -25,7 +25,7 @@ type DatumStringSuite struct {
 }
 
 func (suite *DatumStringSuite) SetupTest() {
-	fmt.Println("Setting up DatumStringSuite")
+	suite.T().Log("Setting up DatumStringSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *DatumStringSuite) SetupTest() {
 }
 
 func (suite *DatumStringSuite) TearDownSuite() {
-	fmt.Println("Tearing down DatumStringSuite")
+	suite.T().Log("Tearing down DatumStringSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,13 +55,13 @@ func (suite *DatumStringSuite) TearDownSuite() {
 }
 
 func (suite *DatumStringSuite) TestCases() {
-	fmt.Println("Running DatumStringSuite: Tests of converstion to and from the RQL string type")
+	suite.T().Log("Running DatumStringSuite: Tests of converstion to and from the RQL string type")
 
 
 
 	// datum/string.yaml line #7
 	// japanese_hello = u'こんにちは'
-	fmt.Println("Possibly executing: var japanese_hello string = 'こんにちは'")
+	suite.T().Log("Possibly executing: var japanese_hello string = 'こんにちは'")
 
 	japanese_hello := "こんにちは"
 	_ = japanese_hello // Prevent any noused variable errors
@@ -73,13 +73,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "str"
 		/* r.expr('str') */
 
-		fmt.Println("About to run line #16: r.Expr('str')")
+		suite.T().Log("About to run line #16: r.Expr('str')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("str"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #16")
+		suite.T().Log("Finished running line #16")
 	}
 
 	{
@@ -88,13 +88,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "str"
 		/* r.expr("str") */
 
-		fmt.Println("About to run line #21: r.Expr('str')")
+		suite.T().Log("About to run line #21: r.Expr('str')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("str"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #21")
+		suite.T().Log("Finished running line #21")
 	}
 
 	{
@@ -103,13 +103,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "str"
 		/* r.expr(u'str') */
 
-		fmt.Println("About to run line #28: r.Expr('str')")
+		suite.T().Log("About to run line #28: r.Expr('str')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("str"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #28")
+		suite.T().Log("Finished running line #28")
 	}
 
 	{
@@ -118,13 +118,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "こんにちは"
 		/* r.expr(japanese_hello) */
 
-		fmt.Println("About to run line #35: r.Expr(japanese_hello)")
+		suite.T().Log("About to run line #35: r.Expr(japanese_hello)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(japanese_hello), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #35")
+		suite.T().Log("Finished running line #35")
 	}
 
 	{
@@ -133,13 +133,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "STRING"
 		/* r.expr('foo').type_of() */
 
-		fmt.Println("About to run line #43: r.Expr('foo').TypeOf()")
+		suite.T().Log("About to run line #43: r.Expr('foo').TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("foo").TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #43")
+		suite.T().Log("Finished running line #43")
 	}
 
 	{
@@ -148,13 +148,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "foo"
 		/* r.expr('foo').coerce_to('string') */
 
-		fmt.Println("About to run line #47: r.Expr('foo').CoerceTo('string')")
+		suite.T().Log("About to run line #47: r.Expr('foo').CoerceTo('string')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("foo").CoerceTo("string"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #47")
+		suite.T().Log("Finished running line #47")
 	}
 
 	{
@@ -163,13 +163,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ float64 = -1.2
 		/* r.expr('-1.2').coerce_to('NUMBER') */
 
-		fmt.Println("About to run line #49: r.Expr('-1.2').CoerceTo('NUMBER')")
+		suite.T().Log("About to run line #49: r.Expr('-1.2').CoerceTo('NUMBER')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("-1.2").CoerceTo("NUMBER"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #49")
+		suite.T().Log("Finished running line #49")
 	}
 
 	{
@@ -178,13 +178,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Could not coerce `--1.2` to NUMBER.")
 		/* r.expr('--1.2').coerce_to('NUMBER') */
 
-		fmt.Println("About to run line #51: r.Expr('--1.2').CoerceTo('NUMBER')")
+		suite.T().Log("About to run line #51: r.Expr('--1.2').CoerceTo('NUMBER')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("--1.2").CoerceTo("NUMBER"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #51")
+		suite.T().Log("Finished running line #51")
 	}
 
 	{
@@ -193,13 +193,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Could not coerce `-1.2-` to NUMBER.")
 		/* r.expr('-1.2-').coerce_to('NUMBER') */
 
-		fmt.Println("About to run line #53: r.Expr('-1.2-').CoerceTo('NUMBER')")
+		suite.T().Log("About to run line #53: r.Expr('-1.2-').CoerceTo('NUMBER')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("-1.2-").CoerceTo("NUMBER"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #53")
+		suite.T().Log("Finished running line #53")
 	}
 
 	{
@@ -208,13 +208,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ int = 10
 		/* r.expr('0xa').coerce_to('NUMBER') */
 
-		fmt.Println("About to run line #55: r.Expr('0xa').CoerceTo('NUMBER')")
+		suite.T().Log("About to run line #55: r.Expr('0xa').CoerceTo('NUMBER')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("0xa").CoerceTo("NUMBER"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #55")
+		suite.T().Log("Finished running line #55")
 	}
 
 	{
@@ -223,13 +223,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Non-finite number: inf")
 		/* r.expr('inf').coerce_to('NUMBER') */
 
-		fmt.Println("About to run line #57: r.Expr('inf').CoerceTo('NUMBER')")
+		suite.T().Log("About to run line #57: r.Expr('inf').CoerceTo('NUMBER')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("inf").CoerceTo("NUMBER"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #57")
+		suite.T().Log("Finished running line #57")
 	}
 
 	{
@@ -238,13 +238,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ int = 13
 		/* r.expr('hello, world!').count() */
 
-		fmt.Println("About to run line #61: r.Expr('hello, world!').Count()")
+		suite.T().Log("About to run line #61: r.Expr('hello, world!').Count()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello, world!").Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #61")
+		suite.T().Log("Finished running line #61")
 	}
 
 	{
@@ -253,13 +253,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ int = 5
 		/* r.expr(japanese_hello).count() */
 
-		fmt.Println("About to run line #63: r.Expr(japanese_hello).Count()")
+		suite.T().Log("About to run line #63: r.Expr(japanese_hello).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(japanese_hello).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #63")
+		suite.T().Log("Finished running line #63")
 	}
 
 	{
@@ -268,13 +268,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "ello"
 		/* r.expr('hello').slice(1) */
 
-		fmt.Println("About to run line #67: r.Expr('hello').Slice(1)")
+		suite.T().Log("About to run line #67: r.Expr('hello').Slice(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello").Slice(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #67")
+		suite.T().Log("Finished running line #67")
 	}
 
 	{
@@ -283,13 +283,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "o"
 		/* r.expr('hello').slice(-1) */
 
-		fmt.Println("About to run line #69: r.Expr('hello').Slice(-1)")
+		suite.T().Log("About to run line #69: r.Expr('hello').Slice(-1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello").Slice(-1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #69")
+		suite.T().Log("Finished running line #69")
 	}
 
 	{
@@ -298,13 +298,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "el"
 		/* r.expr('hello').slice(-4,3) */
 
-		fmt.Println("About to run line #71: r.Expr('hello').Slice(-4, 3)")
+		suite.T().Log("About to run line #71: r.Expr('hello').Slice(-4, 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello").Slice(-4, 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #71")
+		suite.T().Log("Finished running line #71")
 	}
 
 	{
@@ -313,13 +313,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "hello"
 		/* r.expr('hello').slice(-99) */
 
-		fmt.Println("About to run line #73: r.Expr('hello').Slice(-99)")
+		suite.T().Log("About to run line #73: r.Expr('hello').Slice(-99)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello").Slice(-99), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #73")
+		suite.T().Log("Finished running line #73")
 	}
 
 	{
@@ -328,13 +328,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "hello"
 		/* r.expr('hello').slice(0) */
 
-		fmt.Println("About to run line #75: r.Expr('hello').Slice(0)")
+		suite.T().Log("About to run line #75: r.Expr('hello').Slice(0)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("hello").Slice(0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #75")
+		suite.T().Log("Finished running line #75")
 	}
 
 	{
@@ -343,13 +343,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "んにちは"
 		/* r.expr(japanese_hello).slice(1) */
 
-		fmt.Println("About to run line #77: r.Expr(japanese_hello).Slice(1)")
+		suite.T().Log("About to run line #77: r.Expr(japanese_hello).Slice(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(japanese_hello).Slice(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #77")
+		suite.T().Log("Finished running line #77")
 	}
 
 	{
@@ -358,13 +358,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "ん"
 		/* r.expr(japanese_hello).slice(1,2) */
 
-		fmt.Println("About to run line #84: r.Expr(japanese_hello).Slice(1, 2)")
+		suite.T().Log("About to run line #84: r.Expr(japanese_hello).Slice(1, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(japanese_hello).Slice(1, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #84")
+		suite.T().Log("Finished running line #84")
 	}
 
 	{
@@ -373,13 +373,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "にちは"
 		/* r.expr(japanese_hello).slice(-3) */
 
-		fmt.Println("About to run line #91: r.Expr(japanese_hello).Slice(-3)")
+		suite.T().Log("About to run line #91: r.Expr(japanese_hello).Slice(-3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(japanese_hello).Slice(-3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #91")
+		suite.T().Log("Finished running line #91")
 	}
 
 	{
@@ -388,13 +388,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('').split() */
 
-		fmt.Println("About to run line #100: r.Expr('').Split()")
+		suite.T().Log("About to run line #100: r.Expr('').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #100")
+		suite.T().Log("Finished running line #100")
 	}
 
 	{
@@ -403,13 +403,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('').split(null) */
 
-		fmt.Println("About to run line #102: r.Expr('').Split(nil)")
+		suite.T().Log("About to run line #102: r.Expr('').Split(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #102")
+		suite.T().Log("Finished running line #102")
 	}
 
 	{
@@ -418,13 +418,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{""}
 		/* r.expr('').split(' ') */
 
-		fmt.Println("About to run line #104: r.Expr('').Split(' ')")
+		suite.T().Log("About to run line #104: r.Expr('').Split(' ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(" "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #104")
+		suite.T().Log("Finished running line #104")
 	}
 
 	{
@@ -433,13 +433,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('').split('') */
 
-		fmt.Println("About to run line #106: r.Expr('').Split('')")
+		suite.T().Log("About to run line #106: r.Expr('').Split('')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(""), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #106")
+		suite.T().Log("Finished running line #106")
 	}
 
 	{
@@ -448,13 +448,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('').split(null, 5) */
 
-		fmt.Println("About to run line #108: r.Expr('').Split(nil, 5)")
+		suite.T().Log("About to run line #108: r.Expr('').Split(nil, 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(nil, 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #108")
+		suite.T().Log("Finished running line #108")
 	}
 
 	{
@@ -463,13 +463,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{""}
 		/* r.expr('').split(' ', 5) */
 
-		fmt.Println("About to run line #110: r.Expr('').Split(' ', 5)")
+		suite.T().Log("About to run line #110: r.Expr('').Split(' ', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split(" ", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #110")
+		suite.T().Log("Finished running line #110")
 	}
 
 	{
@@ -478,13 +478,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('').split('', 5) */
 
-		fmt.Println("About to run line #112: r.Expr('').Split('', 5)")
+		suite.T().Log("About to run line #112: r.Expr('').Split('', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Split("", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #112")
+		suite.T().Log("Finished running line #112")
 	}
 
 	{
@@ -493,13 +493,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('aaaa bbbb  cccc ').split() */
 
-		fmt.Println("About to run line #115: r.Expr('aaaa bbbb  cccc ').Split()")
+		suite.T().Log("About to run line #115: r.Expr('aaaa bbbb  cccc ').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #115")
+		suite.T().Log("Finished running line #115")
 	}
 
 	{
@@ -508,13 +508,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('aaaa bbbb  cccc ').split(null) */
 
-		fmt.Println("About to run line #117: r.Expr('aaaa bbbb  cccc ').Split(nil)")
+		suite.T().Log("About to run line #117: r.Expr('aaaa bbbb  cccc ').Split(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #117")
+		suite.T().Log("Finished running line #117")
 	}
 
 	{
@@ -523,13 +523,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "", "cccc", ""}
 		/* r.expr('aaaa bbbb  cccc ').split(' ') */
 
-		fmt.Println("About to run line #119: r.Expr('aaaa bbbb  cccc ').Split(' ')")
+		suite.T().Log("About to run line #119: r.Expr('aaaa bbbb  cccc ').Split(' ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #119")
+		suite.T().Log("Finished running line #119")
 	}
 
 	{
@@ -538,13 +538,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "a", "a", "a", " ", "b", "b", "b", "b", " ", " ", "c", "c", "c", "c", " "}
 		/* r.expr('aaaa bbbb  cccc ').split('') */
 
-		fmt.Println("About to run line #121: r.Expr('aaaa bbbb  cccc ').Split('')")
+		suite.T().Log("About to run line #121: r.Expr('aaaa bbbb  cccc ').Split('')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(""), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #121")
+		suite.T().Log("Finished running line #121")
 	}
 
 	{
@@ -553,13 +553,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('b') */
 
-		fmt.Println("About to run line #123: r.Expr('aaaa bbbb  cccc ').Split('b')")
+		suite.T().Log("About to run line #123: r.Expr('aaaa bbbb  cccc ').Split('b')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("b"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #123")
+		suite.T().Log("Finished running line #123")
 	}
 
 	{
@@ -568,13 +568,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('bb') */
 
-		fmt.Println("About to run line #125: r.Expr('aaaa bbbb  cccc ').Split('bb')")
+		suite.T().Log("About to run line #125: r.Expr('aaaa bbbb  cccc ').Split('bb')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("bb"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #125")
+		suite.T().Log("Finished running line #125")
 	}
 
 	{
@@ -583,13 +583,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(' bbbb  ') */
 
-		fmt.Println("About to run line #127: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ')")
+		suite.T().Log("About to run line #127: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #127")
+		suite.T().Log("Finished running line #127")
 	}
 
 	{
@@ -598,13 +598,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split('bb') */
 
-		fmt.Println("About to run line #129: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb')")
+		suite.T().Log("About to run line #129: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split("bb"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #129")
+		suite.T().Log("Finished running line #129")
 	}
 
 	{
@@ -613,13 +613,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ') */
 
-		fmt.Println("About to run line #131: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ')")
+		suite.T().Log("About to run line #131: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #131")
+		suite.T().Log("Finished running line #131")
 	}
 
 	{
@@ -628,13 +628,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e", "f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ') */
 
-		fmt.Println("About to run line #133: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ')")
+		suite.T().Log("About to run line #133: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #133")
+		suite.T().Log("Finished running line #133")
 	}
 
 	{
@@ -643,13 +643,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('aaaa bbbb  cccc ').split(null, 3) */
 
-		fmt.Println("About to run line #136: r.Expr('aaaa bbbb  cccc ').Split(nil, 3)")
+		suite.T().Log("About to run line #136: r.Expr('aaaa bbbb  cccc ').Split(nil, 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(nil, 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #136")
+		suite.T().Log("Finished running line #136")
 	}
 
 	{
@@ -658,13 +658,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "", "cccc", ""}
 		/* r.expr('aaaa bbbb  cccc ').split(' ', 5) */
 
-		fmt.Println("About to run line #138: r.Expr('aaaa bbbb  cccc ').Split(' ', 5)")
+		suite.T().Log("About to run line #138: r.Expr('aaaa bbbb  cccc ').Split(' ', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" ", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #138")
+		suite.T().Log("Finished running line #138")
 	}
 
 	{
@@ -673,13 +673,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "a", "a", "a", " ", "bbbb  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('', 5) */
 
-		fmt.Println("About to run line #140: r.Expr('aaaa bbbb  cccc ').Split('', 5)")
+		suite.T().Log("About to run line #140: r.Expr('aaaa bbbb  cccc ').Split('', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #140")
+		suite.T().Log("Finished running line #140")
 	}
 
 	{
@@ -688,13 +688,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('b', 5) */
 
-		fmt.Println("About to run line #142: r.Expr('aaaa bbbb  cccc ').Split('b', 5)")
+		suite.T().Log("About to run line #142: r.Expr('aaaa bbbb  cccc ').Split('b', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("b", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #142")
+		suite.T().Log("Finished running line #142")
 	}
 
 	{
@@ -703,13 +703,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('bb', 3) */
 
-		fmt.Println("About to run line #144: r.Expr('aaaa bbbb  cccc ').Split('bb', 3)")
+		suite.T().Log("About to run line #144: r.Expr('aaaa bbbb  cccc ').Split('bb', 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("bb", 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #144")
+		suite.T().Log("Finished running line #144")
 	}
 
 	{
@@ -718,13 +718,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #146: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #146: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #146")
+		suite.T().Log("Finished running line #146")
 	}
 
 	{
@@ -733,13 +733,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split('bb', 6) */
 
-		fmt.Println("About to run line #148: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 6)")
+		suite.T().Log("About to run line #148: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 6)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 6), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #148")
+		suite.T().Log("Finished running line #148")
 	}
 
 	{
@@ -748,13 +748,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #150: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #150: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #150")
+		suite.T().Log("Finished running line #150")
 	}
 
 	{
@@ -763,13 +763,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e", "f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 3) */
 
-		fmt.Println("About to run line #152: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 3)")
+		suite.T().Log("About to run line #152: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #152")
+		suite.T().Log("Finished running line #152")
 	}
 
 	{
@@ -778,13 +778,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(null, 2) */
 
-		fmt.Println("About to run line #155: r.Expr('aaaa bbbb  cccc ').Split(nil, 2)")
+		suite.T().Log("About to run line #155: r.Expr('aaaa bbbb  cccc ').Split(nil, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(nil, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #155")
+		suite.T().Log("Finished running line #155")
 	}
 
 	{
@@ -793,13 +793,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "b"}
 		/* r.expr("a  b  ").split(null, 2) */
 
-		fmt.Println("About to run line #157: r.Expr('a  b  ').Split(nil, 2)")
+		suite.T().Log("About to run line #157: r.Expr('a  b  ').Split(nil, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a  b  ").Split(nil, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #157")
+		suite.T().Log("Finished running line #157")
 	}
 
 	{
@@ -808,13 +808,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "", "cccc", ""}
 		/* r.expr('aaaa bbbb  cccc ').split(' ', 4) */
 
-		fmt.Println("About to run line #159: r.Expr('aaaa bbbb  cccc ').Split(' ', 4)")
+		suite.T().Log("About to run line #159: r.Expr('aaaa bbbb  cccc ').Split(' ', 4)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" ", 4), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #159")
+		suite.T().Log("Finished running line #159")
 	}
 
 	{
@@ -823,13 +823,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "a", "a", "a", " bbbb  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('', 4) */
 
-		fmt.Println("About to run line #161: r.Expr('aaaa bbbb  cccc ').Split('', 4)")
+		suite.T().Log("About to run line #161: r.Expr('aaaa bbbb  cccc ').Split('', 4)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("", 4), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #161")
+		suite.T().Log("Finished running line #161")
 	}
 
 	{
@@ -838,13 +838,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('b', 4) */
 
-		fmt.Println("About to run line #163: r.Expr('aaaa bbbb  cccc ').Split('b', 4)")
+		suite.T().Log("About to run line #163: r.Expr('aaaa bbbb  cccc ').Split('b', 4)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("b", 4), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #163")
+		suite.T().Log("Finished running line #163")
 	}
 
 	{
@@ -853,13 +853,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('bb', 2) */
 
-		fmt.Println("About to run line #165: r.Expr('aaaa bbbb  cccc ').Split('bb', 2)")
+		suite.T().Log("About to run line #165: r.Expr('aaaa bbbb  cccc ').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #165")
+		suite.T().Log("Finished running line #165")
 	}
 
 	{
@@ -868,13 +868,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(' bbbb  ', 1) */
 
-		fmt.Println("About to run line #167: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 1)")
+		suite.T().Log("About to run line #167: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" bbbb  ", 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #167")
+		suite.T().Log("Finished running line #167")
 	}
 
 	{
@@ -883,13 +883,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split('bb', 5) */
 
-		fmt.Println("About to run line #169: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 5)")
+		suite.T().Log("About to run line #169: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #169")
+		suite.T().Log("Finished running line #169")
 	}
 
 	{
@@ -898,13 +898,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 1) */
 
-		fmt.Println("About to run line #171: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 1)")
+		suite.T().Log("About to run line #171: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #171")
+		suite.T().Log("Finished running line #171")
 	}
 
 	{
@@ -913,13 +913,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e", "f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #173: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #173: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #173")
+		suite.T().Log("Finished running line #173")
 	}
 
 	{
@@ -928,13 +928,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(null, 1) */
 
-		fmt.Println("About to run line #176: r.Expr('aaaa bbbb  cccc ').Split(nil, 1)")
+		suite.T().Log("About to run line #176: r.Expr('aaaa bbbb  cccc ').Split(nil, 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(nil, 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #176")
+		suite.T().Log("Finished running line #176")
 	}
 
 	{
@@ -943,13 +943,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", " cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(' ', 2) */
 
-		fmt.Println("About to run line #178: r.Expr('aaaa bbbb  cccc ').Split(' ', 2)")
+		suite.T().Log("About to run line #178: r.Expr('aaaa bbbb  cccc ').Split(' ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #178")
+		suite.T().Log("Finished running line #178")
 	}
 
 	{
@@ -958,13 +958,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "a", "aa bbbb  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('', 2) */
 
-		fmt.Println("About to run line #180: r.Expr('aaaa bbbb  cccc ').Split('', 2)")
+		suite.T().Log("About to run line #180: r.Expr('aaaa bbbb  cccc ').Split('', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #180")
+		suite.T().Log("Finished running line #180")
 	}
 
 	{
@@ -973,13 +973,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "bb  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('b', 2) */
 
-		fmt.Println("About to run line #182: r.Expr('aaaa bbbb  cccc ').Split('b', 2)")
+		suite.T().Log("About to run line #182: r.Expr('aaaa bbbb  cccc ').Split('b', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("b", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #182")
+		suite.T().Log("Finished running line #182")
 	}
 
 	{
@@ -988,13 +988,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split('bb', 2) */
 
-		fmt.Println("About to run line #184: r.Expr('aaaa bbbb  cccc ').Split('bb', 2)")
+		suite.T().Log("About to run line #184: r.Expr('aaaa bbbb  cccc ').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #184")
+		suite.T().Log("Finished running line #184")
 	}
 
 	{
@@ -1003,13 +1003,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc "}
 		/* r.expr('aaaa bbbb  cccc ').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #186: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #186: r.Expr('aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc ").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #186")
+		suite.T().Log("Finished running line #186")
 	}
 
 	{
@@ -1018,13 +1018,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa ", "", "  cccc b d bb e bbbb f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split('bb', 2) */
 
-		fmt.Println("About to run line #188: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 2)")
+		suite.T().Log("About to run line #188: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #188")
+		suite.T().Log("Finished running line #188")
 	}
 
 	{
@@ -1033,13 +1033,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #190: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #190: r.Expr('aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #190")
+		suite.T().Log("Finished running line #190")
 	}
 
 	{
@@ -1048,13 +1048,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "cccc b d bb e", "f"}
 		/* r.expr('aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #192: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #192: r.Expr('aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #192")
+		suite.T().Log("Finished running line #192")
 	}
 
 	{
@@ -1063,13 +1063,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('  ').split() */
 
-		fmt.Println("About to run line #195: r.Expr('  ').Split()")
+		suite.T().Log("About to run line #195: r.Expr('  ').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  ").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #195")
+		suite.T().Log("Finished running line #195")
 	}
 
 	{
@@ -1078,13 +1078,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('  ').split(null) */
 
-		fmt.Println("About to run line #197: r.Expr('  ').Split(nil)")
+		suite.T().Log("About to run line #197: r.Expr('  ').Split(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  ").Split(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #197")
+		suite.T().Log("Finished running line #197")
 	}
 
 	{
@@ -1093,13 +1093,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", ""}
 		/* r.expr('  ').split(' ') */
 
-		fmt.Println("About to run line #199: r.Expr('  ').Split(' ')")
+		suite.T().Log("About to run line #199: r.Expr('  ').Split(' ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  ").Split(" "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #199")
+		suite.T().Log("Finished running line #199")
 	}
 
 	{
@@ -1108,13 +1108,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr('  ').split(null, 5) */
 
-		fmt.Println("About to run line #201: r.Expr('  ').Split(nil, 5)")
+		suite.T().Log("About to run line #201: r.Expr('  ').Split(nil, 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  ").Split(nil, 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #201")
+		suite.T().Log("Finished running line #201")
 	}
 
 	{
@@ -1123,13 +1123,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", ""}
 		/* r.expr('  ').split(' ', 5) */
 
-		fmt.Println("About to run line #203: r.Expr('  ').Split(' ', 5)")
+		suite.T().Log("About to run line #203: r.Expr('  ').Split(' ', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  ").Split(" ", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #203")
+		suite.T().Log("Finished running line #203")
 	}
 
 	{
@@ -1138,13 +1138,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('  aaaa bbbb  cccc ').split() */
 
-		fmt.Println("About to run line #206: r.Expr('  aaaa bbbb  cccc ').Split()")
+		suite.T().Log("About to run line #206: r.Expr('  aaaa bbbb  cccc ').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #206")
+		suite.T().Log("Finished running line #206")
 	}
 
 	{
@@ -1153,13 +1153,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('  aaaa bbbb  cccc ').split(null) */
 
-		fmt.Println("About to run line #208: r.Expr('  aaaa bbbb  cccc ').Split(nil)")
+		suite.T().Log("About to run line #208: r.Expr('  aaaa bbbb  cccc ').Split(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #208")
+		suite.T().Log("Finished running line #208")
 	}
 
 	{
@@ -1168,13 +1168,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", "aaaa", "bbbb", "", "cccc", ""}
 		/* r.expr('  aaaa bbbb  cccc ').split(' ') */
 
-		fmt.Println("About to run line #210: r.Expr('  aaaa bbbb  cccc ').Split(' ')")
+		suite.T().Log("About to run line #210: r.Expr('  aaaa bbbb  cccc ').Split(' ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #210")
+		suite.T().Log("Finished running line #210")
 	}
 
 	{
@@ -1183,13 +1183,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('b') */
 
-		fmt.Println("About to run line #212: r.Expr('  aaaa bbbb  cccc ').Split('b')")
+		suite.T().Log("About to run line #212: r.Expr('  aaaa bbbb  cccc ').Split('b')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("b"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #212")
+		suite.T().Log("Finished running line #212")
 	}
 
 	{
@@ -1198,13 +1198,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('bb') */
 
-		fmt.Println("About to run line #214: r.Expr('  aaaa bbbb  cccc ').Split('bb')")
+		suite.T().Log("About to run line #214: r.Expr('  aaaa bbbb  cccc ').Split('bb')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("bb"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #214")
+		suite.T().Log("Finished running line #214")
 	}
 
 	{
@@ -1213,13 +1213,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' bbbb  ') */
 
-		fmt.Println("About to run line #216: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ')")
+		suite.T().Log("About to run line #216: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #216")
+		suite.T().Log("Finished running line #216")
 	}
 
 	{
@@ -1228,13 +1228,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split('bb') */
 
-		fmt.Println("About to run line #218: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb')")
+		suite.T().Log("About to run line #218: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split("bb"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #218")
+		suite.T().Log("Finished running line #218")
 	}
 
 	{
@@ -1243,13 +1243,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ') */
 
-		fmt.Println("About to run line #220: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ')")
+		suite.T().Log("About to run line #220: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #220")
+		suite.T().Log("Finished running line #220")
 	}
 
 	{
@@ -1258,13 +1258,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e", "f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ') */
 
-		fmt.Println("About to run line #222: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ')")
+		suite.T().Log("About to run line #222: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  "), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #222")
+		suite.T().Log("Finished running line #222")
 	}
 
 	{
@@ -1273,13 +1273,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc"}
 		/* r.expr('  aaaa bbbb  cccc ').split(null, 3) */
 
-		fmt.Println("About to run line #225: r.Expr('  aaaa bbbb  cccc ').Split(nil, 3)")
+		suite.T().Log("About to run line #225: r.Expr('  aaaa bbbb  cccc ').Split(nil, 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(nil, 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #225")
+		suite.T().Log("Finished running line #225")
 	}
 
 	{
@@ -1288,13 +1288,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", "aaaa", "bbbb", "", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' ', 5) */
 
-		fmt.Println("About to run line #227: r.Expr('  aaaa bbbb  cccc ').Split(' ', 5)")
+		suite.T().Log("About to run line #227: r.Expr('  aaaa bbbb  cccc ').Split(' ', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" ", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #227")
+		suite.T().Log("Finished running line #227")
 	}
 
 	{
@@ -1303,13 +1303,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('b', 5) */
 
-		fmt.Println("About to run line #229: r.Expr('  aaaa bbbb  cccc ').Split('b', 5)")
+		suite.T().Log("About to run line #229: r.Expr('  aaaa bbbb  cccc ').Split('b', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("b", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #229")
+		suite.T().Log("Finished running line #229")
 	}
 
 	{
@@ -1318,13 +1318,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('bb', 3) */
 
-		fmt.Println("About to run line #231: r.Expr('  aaaa bbbb  cccc ').Split('bb', 3)")
+		suite.T().Log("About to run line #231: r.Expr('  aaaa bbbb  cccc ').Split('bb', 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("bb", 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #231")
+		suite.T().Log("Finished running line #231")
 	}
 
 	{
@@ -1333,13 +1333,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #233: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #233: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #233")
+		suite.T().Log("Finished running line #233")
 	}
 
 	{
@@ -1348,13 +1348,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split('bb', 6) */
 
-		fmt.Println("About to run line #235: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 6)")
+		suite.T().Log("About to run line #235: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 6)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 6), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #235")
+		suite.T().Log("Finished running line #235")
 	}
 
 	{
@@ -1363,13 +1363,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #237: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #237: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #237")
+		suite.T().Log("Finished running line #237")
 	}
 
 	{
@@ -1378,13 +1378,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e", "f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 3) */
 
-		fmt.Println("About to run line #239: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 3)")
+		suite.T().Log("About to run line #239: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #239")
+		suite.T().Log("Finished running line #239")
 	}
 
 	{
@@ -1393,13 +1393,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(null, 2) */
 
-		fmt.Println("About to run line #242: r.Expr('  aaaa bbbb  cccc ').Split(nil, 2)")
+		suite.T().Log("About to run line #242: r.Expr('  aaaa bbbb  cccc ').Split(nil, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(nil, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #242")
+		suite.T().Log("Finished running line #242")
 	}
 
 	{
@@ -1408,13 +1408,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"a", "b"}
 		/* r.expr("a  b  ").split(null, 2) */
 
-		fmt.Println("About to run line #244: r.Expr('a  b  ').Split(nil, 2)")
+		suite.T().Log("About to run line #244: r.Expr('a  b  ').Split(nil, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a  b  ").Split(nil, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #244")
+		suite.T().Log("Finished running line #244")
 	}
 
 	{
@@ -1423,13 +1423,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", "aaaa", "bbbb", " cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' ', 4) */
 
-		fmt.Println("About to run line #246: r.Expr('  aaaa bbbb  cccc ').Split(' ', 4)")
+		suite.T().Log("About to run line #246: r.Expr('  aaaa bbbb  cccc ').Split(' ', 4)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" ", 4), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #246")
+		suite.T().Log("Finished running line #246")
 	}
 
 	{
@@ -1438,13 +1438,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('b', 4) */
 
-		fmt.Println("About to run line #248: r.Expr('  aaaa bbbb  cccc ').Split('b', 4)")
+		suite.T().Log("About to run line #248: r.Expr('  aaaa bbbb  cccc ').Split('b', 4)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("b", 4), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #248")
+		suite.T().Log("Finished running line #248")
 	}
 
 	{
@@ -1453,13 +1453,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('bb', 2) */
 
-		fmt.Println("About to run line #250: r.Expr('  aaaa bbbb  cccc ').Split('bb', 2)")
+		suite.T().Log("About to run line #250: r.Expr('  aaaa bbbb  cccc ').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #250")
+		suite.T().Log("Finished running line #250")
 	}
 
 	{
@@ -1468,13 +1468,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' bbbb  ', 1) */
 
-		fmt.Println("About to run line #252: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 1)")
+		suite.T().Log("About to run line #252: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" bbbb  ", 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #252")
+		suite.T().Log("Finished running line #252")
 	}
 
 	{
@@ -1483,13 +1483,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc b d ", " e ", "", " f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split('bb', 5) */
 
-		fmt.Println("About to run line #254: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 5)")
+		suite.T().Log("About to run line #254: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #254")
+		suite.T().Log("Finished running line #254")
 	}
 
 	{
@@ -1498,13 +1498,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 1) */
 
-		fmt.Println("About to run line #256: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 1)")
+		suite.T().Log("About to run line #256: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #256")
+		suite.T().Log("Finished running line #256")
 	}
 
 	{
@@ -1513,13 +1513,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e", "f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #258: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #258: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #258")
+		suite.T().Log("Finished running line #258")
 	}
 
 	{
@@ -1528,13 +1528,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"aaaa", "bbbb  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(null, 1) */
 
-		fmt.Println("About to run line #261: r.Expr('  aaaa bbbb  cccc ').Split(nil, 1)")
+		suite.T().Log("About to run line #261: r.Expr('  aaaa bbbb  cccc ').Split(nil, 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(nil, 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #261")
+		suite.T().Log("Finished running line #261")
 	}
 
 	{
@@ -1543,13 +1543,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"", "", "aaaa bbbb  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' ', 2) */
 
-		fmt.Println("About to run line #263: r.Expr('  aaaa bbbb  cccc ').Split(' ', 2)")
+		suite.T().Log("About to run line #263: r.Expr('  aaaa bbbb  cccc ').Split(' ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #263")
+		suite.T().Log("Finished running line #263")
 	}
 
 	{
@@ -1558,13 +1558,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "bb  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('b', 2) */
 
-		fmt.Println("About to run line #265: r.Expr('  aaaa bbbb  cccc ').Split('b', 2)")
+		suite.T().Log("About to run line #265: r.Expr('  aaaa bbbb  cccc ').Split('b', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("b", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #265")
+		suite.T().Log("Finished running line #265")
 	}
 
 	{
@@ -1573,13 +1573,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split('bb', 2) */
 
-		fmt.Println("About to run line #267: r.Expr('  aaaa bbbb  cccc ').Split('bb', 2)")
+		suite.T().Log("About to run line #267: r.Expr('  aaaa bbbb  cccc ').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #267")
+		suite.T().Log("Finished running line #267")
 	}
 
 	{
@@ -1588,13 +1588,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc "}
 		/* r.expr('  aaaa bbbb  cccc ').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #269: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #269: r.Expr('  aaaa bbbb  cccc ').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc ").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #269")
+		suite.T().Log("Finished running line #269")
 	}
 
 	{
@@ -1603,13 +1603,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa ", "", "  cccc b d bb e bbbb f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split('bb', 2) */
 
-		fmt.Println("About to run line #271: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 2)")
+		suite.T().Log("About to run line #271: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split('bb', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split("bb", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #271")
+		suite.T().Log("Finished running line #271")
 	}
 
 	{
@@ -1618,13 +1618,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e bbbb f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #273: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #273: r.Expr('  aaaa bbbb  cccc b d bb e bbbb f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #273")
+		suite.T().Log("Finished running line #273")
 	}
 
 	{
@@ -1633,13 +1633,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"  aaaa", "cccc b d bb e", "f"}
 		/* r.expr('  aaaa bbbb  cccc b d bb e bbbb  f').split(' bbbb  ', 2) */
 
-		fmt.Println("About to run line #275: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
+		suite.T().Log("About to run line #275: r.Expr('  aaaa bbbb  cccc b d bb e bbbb  f').Split(' bbbb  ', 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("  aaaa bbbb  cccc b d bb e bbbb  f").Split(" bbbb  ", 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #275")
+		suite.T().Log("Finished running line #275")
 	}
 
 	{
@@ -1648,13 +1648,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "ABC-DEF-GHJ"
 		/* r.expr("abc-dEf-GHJ").upcase() */
 
-		fmt.Println("About to run line #278: r.Expr('abc-dEf-GHJ').Upcase()")
+		suite.T().Log("About to run line #278: r.Expr('abc-dEf-GHJ').Upcase()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abc-dEf-GHJ").Upcase(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #278")
+		suite.T().Log("Finished running line #278")
 	}
 
 	{
@@ -1663,13 +1663,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ string = "abc-def-ghj"
 		/* r.expr("abc-dEf-GHJ").downcase() */
 
-		fmt.Println("About to run line #280: r.Expr('abc-dEf-GHJ').Downcase()")
+		suite.T().Log("About to run line #280: r.Expr('abc-dEf-GHJ').Downcase()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abc-dEf-GHJ").Downcase(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #280")
+		suite.T().Log("Finished running line #280")
 	}
 
 	{
@@ -1678,13 +1678,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"f", "é", "o", "o"}
 		/* r.expr(u"f\u00e9oo").split("") */
 
-		fmt.Println("About to run line #285: r.Expr('féoo').Split('')")
+		suite.T().Log("About to run line #285: r.Expr('féoo').Split('')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("féoo").Split(""), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #285")
+		suite.T().Log("Finished running line #285")
 	}
 
 	{
@@ -1693,13 +1693,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"f", "é", "o", "o"}
 		/* r.expr(u"fe\u0301oo").split("") */
 
-		fmt.Println("About to run line #294: r.Expr('féoo').Split('')")
+		suite.T().Log("About to run line #294: r.Expr('féoo').Split('')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("féoo").Split(""), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #294")
+		suite.T().Log("Finished running line #294")
 	}
 
 	{
@@ -1708,13 +1708,13 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"foo", "bar", "baz", "quux", "fred", "barney", "wilma"}
 		/* r.expr(u"foo bar\tbaz\nquux\rfred\u000bbarney\u000cwilma").split() */
 
-		fmt.Println("About to run line #307: r.Expr('foo bar\\tbaz\\nquux\\rfred\\u000bbarney\\u000cwilma').Split()")
+		suite.T().Log("About to run line #307: r.Expr('foo bar\\tbaz\\nquux\\rfred\\u000bbarney\\u000cwilma').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("foo bar\tbaz\nquux\rfred\u000bbarney\u000cwilma").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #307")
+		suite.T().Log("Finished running line #307")
 	}
 
 	{
@@ -1723,12 +1723,12 @@ func (suite *DatumStringSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{"foo", "bar", "baz\u2060quux", "fred", "barney", "wilma", "betty\u200b"}
 		/* r.expr(u"foo\u00a0bar\u2001baz\u2060quux\u2028fred\u2028barney\u2029wilma\u0085betty\u200b").split() */
 
-		fmt.Println("About to run line #323: r.Expr('foo\\u00a0bar\\u2001baz\\u2060quux\\u2028fred\\u2028barney\\u2029wilma\\u0085betty\\u200b').Split()")
+		suite.T().Log("About to run line #323: r.Expr('foo\\u00a0bar\\u2001baz\\u2060quux\\u2028fred\\u2028barney\\u2029wilma\\u0085betty\\u200b').Split()")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("foo\u00a0bar\u2001baz\u2060quux\u2028fred\u2028barney\u2029wilma\u0085betty\u200b").Split(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #323")
+		suite.T().Log("Finished running line #323")
 	}
 }

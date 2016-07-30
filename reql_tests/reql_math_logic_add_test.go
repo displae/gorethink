@@ -25,7 +25,7 @@ type MathLogicAddSuite struct {
 }
 
 func (suite *MathLogicAddSuite) SetupTest() {
-	fmt.Println("Setting up MathLogicAddSuite")
+	suite.T().Log("Setting up MathLogicAddSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MathLogicAddSuite) SetupTest() {
 }
 
 func (suite *MathLogicAddSuite) TearDownSuite() {
-	fmt.Println("Tearing down MathLogicAddSuite")
+	suite.T().Log("Tearing down MathLogicAddSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MathLogicAddSuite) TearDownSuite() {
 }
 
 func (suite *MathLogicAddSuite) TestCases() {
-	fmt.Println("Running MathLogicAddSuite: Tests for basic usage of the add operation")
+	suite.T().Log("Running MathLogicAddSuite: Tests for basic usage of the add operation")
 
 
 
@@ -65,13 +65,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ int = 2
 		/* r.add(1, 1) */
 
-		fmt.Println("About to run line #3: r.Add(1, 1)")
+		suite.T().Log("About to run line #3: r.Add(1, 1)")
 
 		runAndAssert(suite.Suite, expected_, r.Add(1, 1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #3")
+		suite.T().Log("Finished running line #3")
 	}
 
 	{
@@ -80,13 +80,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ int = 2
 		/* r.expr(1) + 1 */
 
-		fmt.Println("About to run line #8: r.Expr(1).Add(1)")
+		suite.T().Log("About to run line #8: r.Expr(1).Add(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Add(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #8")
+		suite.T().Log("Finished running line #8")
 	}
 
 	{
@@ -95,13 +95,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ int = 2
 		/* 1 + r.expr(1) */
 
-		fmt.Println("About to run line #9: r.Add(1, r.Expr(1))")
+		suite.T().Log("About to run line #9: r.Add(1, r.Expr(1))")
 
 		runAndAssert(suite.Suite, expected_, r.Add(1, r.Expr(1)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #9")
+		suite.T().Log("Finished running line #9")
 	}
 
 	{
@@ -110,13 +110,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ int = 2
 		/* r.expr(1).add(1) */
 
-		fmt.Println("About to run line #10: r.Expr(1).Add(1)")
+		suite.T().Log("About to run line #10: r.Expr(1).Add(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Add(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #10")
+		suite.T().Log("Finished running line #10")
 	}
 
 	{
@@ -125,13 +125,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ int = 0
 		/* r.expr(-1) + 1 */
 
-		fmt.Println("About to run line #16: r.Expr(-1).Add(1)")
+		suite.T().Log("About to run line #16: r.Expr(-1).Add(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(-1).Add(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #16")
+		suite.T().Log("Finished running line #16")
 	}
 
 	{
@@ -140,13 +140,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ float64 = 10.25
 		/* r.expr(1.75) + 8.5 */
 
-		fmt.Println("About to run line #21: r.Expr(1.75).Add(8.5)")
+		suite.T().Log("About to run line #21: r.Expr(1.75).Add(8.5)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1.75).Add(8.5), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #21")
+		suite.T().Log("Finished running line #21")
 	}
 
 	{
@@ -155,13 +155,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ string = ""
 		/* r.expr('') + '' */
 
-		fmt.Println("About to run line #27: r.Expr('').Add('')")
+		suite.T().Log("About to run line #27: r.Expr('').Add('')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("").Add(""), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #27")
+		suite.T().Log("Finished running line #27")
 	}
 
 	{
@@ -170,13 +170,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ string = "abcdef"
 		/* r.expr('abc') + 'def' */
 
-		fmt.Println("About to run line #32: r.Expr('abc').Add('def')")
+		suite.T().Log("About to run line #32: r.Expr('abc').Add('def')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abc").Add("def"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #32")
+		suite.T().Log("Finished running line #32")
 	}
 
 	{
@@ -185,13 +185,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type NUMBER but found STRING.")
 		/* r.expr(1) + 'a' */
 
-		fmt.Println("About to run line #52: r.Expr(1).Add('a')")
+		suite.T().Log("About to run line #52: r.Expr(1).Add('a')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Add("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #52")
+		suite.T().Log("Finished running line #52")
 	}
 
 	{
@@ -200,13 +200,13 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type STRING but found NUMBER.")
 		/* r.expr('a') + 1 */
 
-		fmt.Println("About to run line #57: r.Expr('a').Add(1)")
+		suite.T().Log("About to run line #57: r.Expr('a').Add(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Add(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #57")
+		suite.T().Log("Finished running line #57")
 	}
 
 	{
@@ -215,12 +215,12 @@ func (suite *MathLogicAddSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type ARRAY but found NUMBER.")
 		/* r.expr([]) + 1 */
 
-		fmt.Println("About to run line #62: r.Expr([]interface{}{}).Add(1)")
+		suite.T().Log("About to run line #62: r.Expr([]interface{}{}).Add(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{}).Add(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #62")
+		suite.T().Log("Finished running line #62")
 	}
 }

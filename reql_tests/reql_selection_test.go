@@ -25,7 +25,7 @@ type SelectionSuite struct {
 }
 
 func (suite *SelectionSuite) SetupTest() {
-	fmt.Println("Setting up SelectionSuite")
+	suite.T().Log("Setting up SelectionSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -59,7 +59,7 @@ func (suite *SelectionSuite) SetupTest() {
 }
 
 func (suite *SelectionSuite) TearDownSuite() {
-	fmt.Println("Tearing down SelectionSuite")
+	suite.T().Log("Tearing down SelectionSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -73,7 +73,7 @@ func (suite *SelectionSuite) TearDownSuite() {
 }
 
 func (suite *SelectionSuite) TestCases() {
-	fmt.Println("Running SelectionSuite: Tests that manipulation data in tables")
+	suite.T().Log("Running SelectionSuite: Tests that manipulation data in tables")
 
 	tbl := r.DB("test").Table("tbl")
 	_ = tbl // Prevent any noused variable errors
@@ -89,7 +89,7 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0.0, "replaced": 0.0, "unchanged": 0.0, "errors": 0.0, "skipped": 0.0, "inserted": 100, }
 		/* tbl.insert([{'id':i, 'a':i%4} for i in xrange(100)]) */
 
-		fmt.Println("About to run line #6: tbl.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, 'a': r.Mod(i, 4), })\n    }\n    return res\n}()))")
+		suite.T().Log("About to run line #6: tbl.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, 'a': r.Mod(i, 4), })\n    }\n    return res\n}()))")
 
 		runAndAssert(suite.Suite, expected_, tbl.Insert((func() []interface{} {
     res := []interface{}{}
@@ -99,10 +99,10 @@ func (suite *SelectionSuite) TestCases() {
     }
     return res
 }())), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #6")
+		suite.T().Log("Finished running line #6")
 	}
 
 	{
@@ -111,7 +111,7 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0.0, "replaced": 0.0, "unchanged": 0.0, "errors": 0.0, "skipped": 0.0, "inserted": 100, }
 		/* tbl2.insert([{'id':i, 'b':i%4} for i in xrange(100)]) */
 
-		fmt.Println("About to run line #18: tbl2.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, 'b': r.Mod(i, 4), })\n    }\n    return res\n}()))")
+		suite.T().Log("About to run line #18: tbl2.Insert((func() []interface{} {\n    res := []interface{}{}\n    for iterator_ := 0; iterator_ < 100; iterator_++ {\n        i := iterator_\n        res = append(res, map[interface{}]interface{}{'id': i, 'b': r.Mod(i, 4), })\n    }\n    return res\n}()))")
 
 		runAndAssert(suite.Suite, expected_, tbl2.Insert((func() []interface{} {
     res := []interface{}{}
@@ -121,10 +121,10 @@ func (suite *SelectionSuite) TestCases() {
     }
     return res
 }())), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #18")
+		suite.T().Log("Finished running line #18")
 	}
 
 	{
@@ -133,13 +133,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE"
 		/* tbl.type_of() */
 
-		fmt.Println("About to run line #31: tbl.TypeOf()")
+		suite.T().Log("About to run line #31: tbl.TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #31")
+		suite.T().Log("Finished running line #31")
 	}
 
 	{
@@ -148,13 +148,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlOpFailedError", "Database `missing` does not exist.")
 		/* r.db('missing').table('bar') */
 
-		fmt.Println("About to run line #35: r.DB('missing').Table('bar')")
+		suite.T().Log("About to run line #35: r.DB('missing').Table('bar')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("missing").Table("bar"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #35")
+		suite.T().Log("Finished running line #35")
 	}
 
 	{
@@ -163,13 +163,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlOpFailedError", "Table `test.missing` does not exist.")
 		/* r.db('test').table('missing') */
 
-		fmt.Println("About to run line #39: r.DB('test').Table('missing')")
+		suite.T().Log("About to run line #39: r.DB('test').Table('missing')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").Table("missing"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #39")
+		suite.T().Log("Finished running line #39")
 	}
 
 	{
@@ -178,13 +178,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"errors": 1, "inserted": 0, }
 		/* tbl.insert({"id":"\x00"}).pluck("errors","inserted") */
 
-		fmt.Println("About to run line #43: tbl.Insert(map[interface{}]interface{}{'id': '\\u0000', }).Pluck('errors', 'inserted')")
+		suite.T().Log("About to run line #43: tbl.Insert(map[interface{}]interface{}{'id': '\\u0000', }).Pluck('errors', 'inserted')")
 
 		runAndAssert(suite.Suite, expected_, tbl.Insert(map[interface{}]interface{}{"id": "\u0000", }).Pluck("errors", "inserted"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #43")
+		suite.T().Log("Finished running line #43")
 	}
 
 	{
@@ -193,13 +193,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"errors": 1, "inserted": 0, }
 		/* tbl.insert({"id":["embedded",["null\x00"]]}).pluck("errors","inserted") */
 
-		fmt.Println("About to run line #46: tbl.Insert(map[interface{}]interface{}{'id': []interface{}{'embedded', []interface{}{'null\\u0000'}}, }).Pluck('errors', 'inserted')")
+		suite.T().Log("About to run line #46: tbl.Insert(map[interface{}]interface{}{'id': []interface{}{'embedded', []interface{}{'null\\u0000'}}, }).Pluck('errors', 'inserted')")
 
 		runAndAssert(suite.Suite, expected_, tbl.Insert(map[interface{}]interface{}{"id": []interface{}{"embedded", []interface{}{"null\u0000"}}, }).Pluck("errors", "inserted"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #46")
+		suite.T().Log("Finished running line #46")
 	}
 
 	{
@@ -208,13 +208,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0.0, "replaced": 0.0, "unchanged": 0.0, "errors": 0.0, "skipped": 0.0, "inserted": 1, }
 		/* tbl3.insert({'id':u'Здравствуй','value':u'Земля!'}) */
 
-		fmt.Println("About to run line #51: tbl3.Insert(map[interface{}]interface{}{'id': 'Здравствуй', 'value': 'Земля!', })")
+		suite.T().Log("About to run line #51: tbl3.Insert(map[interface{}]interface{}{'id': 'Здравствуй', 'value': 'Земля!', })")
 
 		runAndAssert(suite.Suite, expected_, tbl3.Insert(map[interface{}]interface{}{"id": "Здравствуй", "value": "Земля!", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #51")
+		suite.T().Log("Finished running line #51")
 	}
 
 	{
@@ -223,13 +223,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"id": "Здравствуй", "value": "Земля!", }
 		/* tbl3.get('Здравствуй') */
 
-		fmt.Println("About to run line #60: tbl3.Get('Здравствуй')")
+		suite.T().Log("About to run line #60: tbl3.Get('Здравствуй')")
 
 		runAndAssert(suite.Suite, expected_, tbl3.Get("Здравствуй"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #60")
+		suite.T().Log("Finished running line #60")
 	}
 
 	{
@@ -238,13 +238,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"id": "Здравствуй", "value": "Земля!", }}
 		/* tbl3.filter({'value':'Земля!'}) */
 
-		fmt.Println("About to run line #73: tbl3.Filter(map[interface{}]interface{}{'value': 'Земля!', })")
+		suite.T().Log("About to run line #73: tbl3.Filter(map[interface{}]interface{}{'value': 'Земля!', })")
 
 		runAndAssert(suite.Suite, expected_, tbl3.Filter(map[interface{}]interface{}{"value": "Земля!", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #73")
+		suite.T().Log("Finished running line #73")
 	}
 
 	{
@@ -253,13 +253,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Database name `%` invalid (Use A-Za-z0-9_ only).")
 		/* r.db('%') */
 
-		fmt.Println("About to run line #86: r.DB('%')")
+		suite.T().Log("About to run line #86: r.DB('%')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("%"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #86")
+		suite.T().Log("Finished running line #86")
 	}
 
 	{
@@ -268,13 +268,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Table name `%` invalid (Use A-Za-z0-9_ only).")
 		/* r.db('test').table('%') */
 
-		fmt.Println("About to run line #89: r.DB('test').Table('%')")
+		suite.T().Log("About to run line #89: r.DB('test').Table('%')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").Table("%"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #89")
+		suite.T().Log("Finished running line #89")
 	}
 
 	{
@@ -283,18 +283,18 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.count() */
 
-		fmt.Println("About to run line #93: tbl.Count()")
+		suite.T().Log("About to run line #93: tbl.Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #93")
+		suite.T().Log("Finished running line #93")
 	}
 
 	// selection.yaml line #97
 	// tbl2Name = tbl2.info().get_field('name')
-	fmt.Println("Possibly executing: var tbl2Name r.Term = tbl2.Info().Field('name')")
+	suite.T().Log("Possibly executing: var tbl2Name r.Term = tbl2.Info().Field('name')")
 
 	tbl2Name := tbl2.Info().Field("name")
 	_ = tbl2Name // Prevent any noused variable errors
@@ -302,7 +302,7 @@ func (suite *SelectionSuite) TestCases() {
 
 	// selection.yaml line #98
 	// tbl2DbName = tbl2.info().get_field('db').get_field('name')
-	fmt.Println("Possibly executing: var tbl2DbName r.Term = tbl2.Info().Field('db').Field('name')")
+	suite.T().Log("Possibly executing: var tbl2DbName r.Term = tbl2.Info().Field('db').Field('name')")
 
 	tbl2DbName := tbl2.Info().Field("db").Field("name")
 	_ = tbl2DbName // Prevent any noused variable errors
@@ -314,13 +314,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* r.db(tbl2DbName).table(tbl2Name, read_mode='outdated').count() */
 
-		fmt.Println("About to run line #101: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'outdated', }).Count()")
+		suite.T().Log("About to run line #101: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'outdated', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: "outdated", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #101")
+		suite.T().Log("Finished running line #101")
 	}
 
 	{
@@ -329,13 +329,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* r.db(tbl2DbName).table(tbl2Name, read_mode='single').count() */
 
-		fmt.Println("About to run line #102: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'single', }).Count()")
+		suite.T().Log("About to run line #102: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'single', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: "single", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #102")
+		suite.T().Log("Finished running line #102")
 	}
 
 	{
@@ -344,13 +344,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* r.db(tbl2DbName).table(tbl2Name, read_mode='majority').count() */
 
-		fmt.Println("About to run line #103: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'majority', }).Count()")
+		suite.T().Log("About to run line #103: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'majority', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: "majority", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #103")
+		suite.T().Log("Finished running line #103")
 	}
 
 	{
@@ -359,13 +359,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type STRING but found BOOL.")
 		/* r.db(tbl2DbName).table(tbl2Name, read_mode=true).count() */
 
-		fmt.Println("About to run line #120: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: true, }).Count()")
+		suite.T().Log("About to run line #120: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: true, }).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: true, }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #120")
+		suite.T().Log("Finished running line #120")
 	}
 
 	{
@@ -374,13 +374,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Read mode `fake` unrecognized (options are \"majority\", \"single\", and \"outdated\").")
 		/* r.db(tbl2DbName).table(tbl2Name, read_mode='fake').count() */
 
-		fmt.Println("About to run line #125: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'fake', }).Count()")
+		suite.T().Log("About to run line #125: r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: 'fake', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, r.DB(tbl2DbName).Table(tbl2Name, r.TableOpts{ReadMode: "fake", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #125")
+		suite.T().Log("Finished running line #125")
 	}
 
 	{
@@ -389,13 +389,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 2
 		/* tbl.get(20).count() */
 
-		fmt.Println("About to run line #130: tbl.Get(20).Count()")
+		suite.T().Log("About to run line #130: tbl.Get(20).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Get(20).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #130")
+		suite.T().Log("Finished running line #130")
 	}
 
 	{
@@ -404,13 +404,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"id": 20, "a": 0, }
 		/* tbl.get(20) */
 
-		fmt.Println("About to run line #134: tbl.Get(20)")
+		suite.T().Log("About to run line #134: tbl.Get(20)")
 
 		runAndAssert(suite.Suite, expected_, tbl.Get(20), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #134")
+		suite.T().Log("Finished running line #134")
 	}
 
 	{
@@ -419,18 +419,18 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ interface{} = nil
 		/* tbl.get(2000) */
 
-		fmt.Println("About to run line #138: tbl.Get(2000)")
+		suite.T().Log("About to run line #138: tbl.Get(2000)")
 
 		runAndAssert(suite.Suite, expected_, tbl.Get(2000), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #138")
+		suite.T().Log("Finished running line #138")
 	}
 
 	// selection.yaml line #153
 	// tblpkey = r.db('test').table('testpkey')
-	fmt.Println("Possibly executing: var tblpkey r.Term = r.DB('test').Table('testpkey')")
+	suite.T().Log("Possibly executing: var tblpkey r.Term = r.DB('test').Table('testpkey')")
 
 	tblpkey := r.DB("test").Table("testpkey")
 	_ = tblpkey // Prevent any noused variable errors
@@ -442,13 +442,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"tables_created": 1, })
 		/* r.db('test').table_create('testpkey', primary_key='foo') */
 
-		fmt.Println("About to run line #149: r.DB('test').TableCreate('testpkey', r.TableCreateOpts{PrimaryKey: 'foo', })")
+		suite.T().Log("About to run line #149: r.DB('test').TableCreate('testpkey', r.TableCreateOpts{PrimaryKey: 'foo', })")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").TableCreate("testpkey", r.TableCreateOpts{PrimaryKey: "foo", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #149")
+		suite.T().Log("Finished running line #149")
 	}
 
 	{
@@ -457,13 +457,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0.0, "replaced": 0.0, "unchanged": 0.0, "errors": 0.0, "skipped": 0.0, "inserted": 1, }
 		/* tblpkey.insert({'foo':10,'a':10}) */
 
-		fmt.Println("About to run line #155: tblpkey.Insert(map[interface{}]interface{}{'foo': 10, 'a': 10, })")
+		suite.T().Log("About to run line #155: tblpkey.Insert(map[interface{}]interface{}{'foo': 10, 'a': 10, })")
 
 		runAndAssert(suite.Suite, expected_, tblpkey.Insert(map[interface{}]interface{}{"foo": 10, "a": 10, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #155")
+		suite.T().Log("Finished running line #155")
 	}
 
 	{
@@ -472,13 +472,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"foo": 10, "a": 10, }
 		/* tblpkey.get(10) */
 
-		fmt.Println("About to run line #159: tblpkey.Get(10)")
+		suite.T().Log("About to run line #159: tblpkey.Get(10)")
 
 		runAndAssert(suite.Suite, expected_, tblpkey.Get(10), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #159")
+		suite.T().Log("Finished running line #159")
 	}
 
 	{
@@ -487,13 +487,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* tbl.get_all() */
 
-		fmt.Println("About to run line #163: tbl.GetAll()")
+		suite.T().Log("About to run line #163: tbl.GetAll()")
 
 		runAndAssert(suite.Suite, expected_, tbl.GetAll(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #163")
+		suite.T().Log("Finished running line #163")
 	}
 
 	{
@@ -502,13 +502,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"id": 20, "a": 0, }}
 		/* tbl.get_all(20) */
 
-		fmt.Println("About to run line #165: tbl.GetAll(20)")
+		suite.T().Log("About to run line #165: tbl.GetAll(20)")
 
 		runAndAssert(suite.Suite, expected_, tbl.GetAll(20), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #165")
+		suite.T().Log("Finished running line #165")
 	}
 
 	{
@@ -517,13 +517,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "SELECTION<STREAM>"
 		/* tbl.get_all().type_of() */
 
-		fmt.Println("About to run line #167: tbl.GetAll().TypeOf()")
+		suite.T().Log("About to run line #167: tbl.GetAll().TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.GetAll().TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #167")
+		suite.T().Log("Finished running line #167")
 	}
 
 	{
@@ -532,13 +532,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "SELECTION<STREAM>"
 		/* tbl.get_all(20).type_of() */
 
-		fmt.Println("About to run line #169: tbl.GetAll(20).TypeOf()")
+		suite.T().Log("About to run line #169: tbl.GetAll(20).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.GetAll(20).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #169")
+		suite.T().Log("Finished running line #169")
 	}
 
 	{
@@ -547,13 +547,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(2, 1).type_of() */
 
-		fmt.Println("About to run line #173: tbl.Between(2, 1).TypeOf()")
+		suite.T().Log("About to run line #173: tbl.Between(2, 1).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(2, 1).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #173")
+		suite.T().Log("Finished running line #173")
 	}
 
 	{
@@ -562,13 +562,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(1, 2).type_of() */
 
-		fmt.Println("About to run line #175: tbl.Between(1, 2).TypeOf()")
+		suite.T().Log("About to run line #175: tbl.Between(1, 2).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(1, 2).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #175")
+		suite.T().Log("Finished running line #175")
 	}
 
 	{
@@ -577,13 +577,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(1, 2, index='id').type_of() */
 
-		fmt.Println("About to run line #177: tbl.Between(1, 2, r.BetweenOpts{Index: 'id', }).TypeOf()")
+		suite.T().Log("About to run line #177: tbl.Between(1, 2, r.BetweenOpts{Index: 'id', }).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(1, 2, r.BetweenOpts{Index: "id", }).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #177")
+		suite.T().Log("Finished running line #177")
 	}
 
 	{
@@ -592,13 +592,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(1, 1, right_bound='closed').type_of() */
 
-		fmt.Println("About to run line #181: tbl.Between(1, 1, r.BetweenOpts{RightBound: 'closed', }).TypeOf()")
+		suite.T().Log("About to run line #181: tbl.Between(1, 1, r.BetweenOpts{RightBound: 'closed', }).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(1, 1, r.BetweenOpts{RightBound: "closed", }).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #181")
+		suite.T().Log("Finished running line #181")
 	}
 
 	{
@@ -607,13 +607,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(2, 1).type_of() */
 
-		fmt.Println("About to run line #185: tbl.Between(2, 1).TypeOf()")
+		suite.T().Log("About to run line #185: tbl.Between(2, 1).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(2, 1).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #185")
+		suite.T().Log("Finished running line #185")
 	}
 
 	{
@@ -622,13 +622,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "TABLE_SLICE"
 		/* tbl.between(2, 1, index='id').type_of() */
 
-		fmt.Println("About to run line #187: tbl.Between(2, 1, r.BetweenOpts{Index: 'id', }).TypeOf()")
+		suite.T().Log("About to run line #187: tbl.Between(2, 1, r.BetweenOpts{Index: 'id', }).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(2, 1, r.BetweenOpts{Index: "id", }).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #187")
+		suite.T().Log("Finished running line #187")
 	}
 
 	{
@@ -637,13 +637,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 0
 		/* tbl.between(21, 20).count() */
 
-		fmt.Println("About to run line #192: tbl.Between(21, 20).Count()")
+		suite.T().Log("About to run line #192: tbl.Between(21, 20).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(21, 20).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #192")
+		suite.T().Log("Finished running line #192")
 	}
 
 	{
@@ -652,13 +652,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 9
 		/* tbl.between(20, 29).count() */
 
-		fmt.Println("About to run line #194: tbl.Between(20, 29).Count()")
+		suite.T().Log("About to run line #194: tbl.Between(20, 29).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(20, 29).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #194")
+		suite.T().Log("Finished running line #194")
 	}
 
 	{
@@ -667,13 +667,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 9
 		/* tbl.between(-10, 9).count() */
 
-		fmt.Println("About to run line #196: tbl.Between(-10, 9).Count()")
+		suite.T().Log("About to run line #196: tbl.Between(-10, 9).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-10, 9).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #196")
+		suite.T().Log("Finished running line #196")
 	}
 
 	{
@@ -682,13 +682,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 20
 		/* tbl.between(80, 2000).count() */
 
-		fmt.Println("About to run line #198: tbl.Between(80, 2000).Count()")
+		suite.T().Log("About to run line #198: tbl.Between(80, 2000).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(80, 2000).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #198")
+		suite.T().Log("Finished running line #198")
 	}
 
 	{
@@ -697,13 +697,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.between(-2000, 2000).count() */
 
-		fmt.Println("About to run line #200: tbl.Between(-2000, 2000).Count()")
+		suite.T().Log("About to run line #200: tbl.Between(-2000, 2000).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-2000, 2000).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #200")
+		suite.T().Log("Finished running line #200")
 	}
 
 	{
@@ -712,13 +712,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 10
 		/* tbl.between(20, 29, right_bound='closed').count() */
 
-		fmt.Println("About to run line #205: tbl.Between(20, 29, r.BetweenOpts{RightBound: 'closed', }).Count()")
+		suite.T().Log("About to run line #205: tbl.Between(20, 29, r.BetweenOpts{RightBound: 'closed', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(20, 29, r.BetweenOpts{RightBound: "closed", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #205")
+		suite.T().Log("Finished running line #205")
 	}
 
 	{
@@ -727,13 +727,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 10
 		/* tbl.between(-10, 9, right_bound='closed').count() */
 
-		fmt.Println("About to run line #209: tbl.Between(-10, 9, r.BetweenOpts{RightBound: 'closed', }).Count()")
+		suite.T().Log("About to run line #209: tbl.Between(-10, 9, r.BetweenOpts{RightBound: 'closed', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-10, 9, r.BetweenOpts{RightBound: "closed", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #209")
+		suite.T().Log("Finished running line #209")
 	}
 
 	{
@@ -742,13 +742,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 20
 		/* tbl.between(80, 2000, right_bound='closed').count() */
 
-		fmt.Println("About to run line #213: tbl.Between(80, 2000, r.BetweenOpts{RightBound: 'closed', }).Count()")
+		suite.T().Log("About to run line #213: tbl.Between(80, 2000, r.BetweenOpts{RightBound: 'closed', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(80, 2000, r.BetweenOpts{RightBound: "closed", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #213")
+		suite.T().Log("Finished running line #213")
 	}
 
 	{
@@ -757,13 +757,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.between(-2000, 2000, right_bound='closed').count() */
 
-		fmt.Println("About to run line #217: tbl.Between(-2000, 2000, r.BetweenOpts{RightBound: 'closed', }).Count()")
+		suite.T().Log("About to run line #217: tbl.Between(-2000, 2000, r.BetweenOpts{RightBound: 'closed', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-2000, 2000, r.BetweenOpts{RightBound: "closed", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #217")
+		suite.T().Log("Finished running line #217")
 	}
 
 	{
@@ -772,13 +772,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 8
 		/* tbl.between(20, 29, left_bound='open').count() */
 
-		fmt.Println("About to run line #223: tbl.Between(20, 29, r.BetweenOpts{LeftBound: 'open', }).Count()")
+		suite.T().Log("About to run line #223: tbl.Between(20, 29, r.BetweenOpts{LeftBound: 'open', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(20, 29, r.BetweenOpts{LeftBound: "open", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #223")
+		suite.T().Log("Finished running line #223")
 	}
 
 	{
@@ -787,13 +787,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 9
 		/* tbl.between(-10, 9, left_bound='open').count() */
 
-		fmt.Println("About to run line #227: tbl.Between(-10, 9, r.BetweenOpts{LeftBound: 'open', }).Count()")
+		suite.T().Log("About to run line #227: tbl.Between(-10, 9, r.BetweenOpts{LeftBound: 'open', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-10, 9, r.BetweenOpts{LeftBound: "open", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #227")
+		suite.T().Log("Finished running line #227")
 	}
 
 	{
@@ -802,13 +802,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 19
 		/* tbl.between(80, 2000, left_bound='open').count() */
 
-		fmt.Println("About to run line #231: tbl.Between(80, 2000, r.BetweenOpts{LeftBound: 'open', }).Count()")
+		suite.T().Log("About to run line #231: tbl.Between(80, 2000, r.BetweenOpts{LeftBound: 'open', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(80, 2000, r.BetweenOpts{LeftBound: "open", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #231")
+		suite.T().Log("Finished running line #231")
 	}
 
 	{
@@ -817,13 +817,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.between(-2000, 2000, left_bound='open').count() */
 
-		fmt.Println("About to run line #235: tbl.Between(-2000, 2000, r.BetweenOpts{LeftBound: 'open', }).Count()")
+		suite.T().Log("About to run line #235: tbl.Between(-2000, 2000, r.BetweenOpts{LeftBound: 'open', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(-2000, 2000, r.BetweenOpts{LeftBound: "open", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #235")
+		suite.T().Log("Finished running line #235")
 	}
 
 	{
@@ -832,13 +832,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type TABLE_SLICE but found DATUM:")
 		/* r.expr([1, 2, 3]).between(-1, 2) */
 
-		fmt.Println("About to run line #240: r.Expr([]interface{}{1, 2, 3}).Between(-1, 2)")
+		suite.T().Log("About to run line #240: r.Expr([]interface{}{1, 2, 3}).Between(-1, 2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2, 3}).Between(-1, 2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #240")
+		suite.T().Log("Finished running line #240")
 	}
 
 	{
@@ -847,13 +847,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 2
 		/* tbl.between(r.minval, 2).count() */
 
-		fmt.Println("About to run line #244: tbl.Between(r.MinVal, 2).Count()")
+		suite.T().Log("About to run line #244: tbl.Between(r.MinVal, 2).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(r.MinVal, 2).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #244")
+		suite.T().Log("Finished running line #244")
 	}
 
 	{
@@ -862,13 +862,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 3
 		/* tbl.between(r.minval, 2, right_bound='closed').count() */
 
-		fmt.Println("About to run line #247: tbl.Between(r.MinVal, 2, r.BetweenOpts{RightBound: 'closed', }).Count()")
+		suite.T().Log("About to run line #247: tbl.Between(r.MinVal, 2, r.BetweenOpts{RightBound: 'closed', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(r.MinVal, 2, r.BetweenOpts{RightBound: "closed", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #247")
+		suite.T().Log("Finished running line #247")
 	}
 
 	{
@@ -877,13 +877,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 2
 		/* tbl.between(r.minval, 2, left_bound='open').count() */
 
-		fmt.Println("About to run line #251: tbl.Between(r.MinVal, 2, r.BetweenOpts{LeftBound: 'open', }).Count()")
+		suite.T().Log("About to run line #251: tbl.Between(r.MinVal, 2, r.BetweenOpts{LeftBound: 'open', }).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(r.MinVal, 2, r.BetweenOpts{LeftBound: "open", }).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #251")
+		suite.T().Log("Finished running line #251")
 	}
 
 	{
@@ -892,13 +892,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 98
 		/* tbl.between(2, r.maxval).count() */
 
-		fmt.Println("About to run line #255: tbl.Between(2, r.MaxVal).Count()")
+		suite.T().Log("About to run line #255: tbl.Between(2, r.MaxVal).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(2, r.MaxVal).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #255")
+		suite.T().Log("Finished running line #255")
 	}
 
 	{
@@ -907,13 +907,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Cannot use `nu" + "ll` in BETWEEN, use `r.minval` or `r.maxval` to denote unboundedness.")
 		/* tbl.between(null, 2).count() */
 
-		fmt.Println("About to run line #265: tbl.Between(nil, 2).Count()")
+		suite.T().Log("About to run line #265: tbl.Between(nil, 2).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(nil, 2).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #265")
+		suite.T().Log("Finished running line #265")
 	}
 
 	{
@@ -922,13 +922,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Cannot use `nu" + "ll` in BETWEEN, use `r.minval` or `r.maxval` to denote unboundedness.")
 		/* tbl.between(2, null).count() */
 
-		fmt.Println("About to run line #266: tbl.Between(2, nil).Count()")
+		suite.T().Log("About to run line #266: tbl.Between(2, nil).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(2, nil).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #266")
+		suite.T().Log("Finished running line #266")
 	}
 
 	{
@@ -937,13 +937,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Cannot use `nu" + "ll` in BETWEEN, use `r.minval` or `r.maxval` to denote unboundedness.")
 		/* tbl.between(null, null).count() */
 
-		fmt.Println("About to run line #267: tbl.Between(nil, nil).Count()")
+		suite.T().Log("About to run line #267: tbl.Between(nil, nil).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Between(nil, nil).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #267")
+		suite.T().Log("Finished running line #267")
 	}
 
 	{
@@ -952,13 +952,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 1
 		/* tblpkey.between(9, 11).count() */
 
-		fmt.Println("About to run line #271: tblpkey.Between(9, 11).Count()")
+		suite.T().Log("About to run line #271: tblpkey.Between(9, 11).Count()")
 
 		runAndAssert(suite.Suite, expected_, tblpkey.Between(9, 11).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #271")
+		suite.T().Log("Finished running line #271")
 	}
 
 	{
@@ -967,13 +967,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 0
 		/* tblpkey.between(11, 12).count() */
 
-		fmt.Println("About to run line #274: tblpkey.Between(11, 12).Count()")
+		suite.T().Log("About to run line #274: tblpkey.Between(11, 12).Count()")
 
 		runAndAssert(suite.Suite, expected_, tblpkey.Between(11, 12).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #274")
+		suite.T().Log("Finished running line #274")
 	}
 
 	{
@@ -982,13 +982,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 25
 		/* tbl.filter(lambda row:row['a'] > 2).count() */
 
-		fmt.Println("About to run line #278: tbl.Filter(func(row r.Term) interface{} { return row.AtIndex('a').Gt(2)}).Count()")
+		suite.T().Log("About to run line #278: tbl.Filter(func(row r.Term) interface{} { return row.AtIndex('a').Gt(2)}).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Filter(func(row r.Term) interface{} { return row.AtIndex("a").Gt(2)}).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #278")
+		suite.T().Log("Finished running line #278")
 	}
 
 	{
@@ -997,13 +997,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 100
 		/* tbl.filter(lambda row: 1).count() */
 
-		fmt.Println("About to run line #284: tbl.Filter(func(row r.Term) interface{} { return 1}).Count()")
+		suite.T().Log("About to run line #284: tbl.Filter(func(row r.Term) interface{} { return 1}).Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Filter(func(row r.Term) interface{} { return 1}).Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #284")
+		suite.T().Log("Finished running line #284")
 	}
 
 	{
@@ -1012,18 +1012,18 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{4, 5}
 		/* r.expr([1, 2, 3, 4, 5]).filter(r.row > 2).filter(r.row > 3) */
 
-		fmt.Println("About to run line #290: r.Expr([]interface{}{1, 2, 3, 4, 5}).Filter(r.Row.Gt(2)).Filter(r.Row.Gt(3))")
+		suite.T().Log("About to run line #290: r.Expr([]interface{}{1, 2, 3, 4, 5}).Filter(r.Row.Gt(2)).Filter(r.Row.Gt(3))")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2, 3, 4, 5}).Filter(r.Row.Gt(2)).Filter(r.Row.Gt(3)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #290")
+		suite.T().Log("Finished running line #290")
 	}
 
 	// selection.yaml line #296
 	// nested = r.expr([[1, 2], [3, 4], [5, 6]])
-	fmt.Println("Possibly executing: var nested r.Term = r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}})")
+	suite.T().Log("Possibly executing: var nested r.Term = r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}})")
 
 	nested := r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}})
 	_ = nested // Prevent any noused variable errors
@@ -1035,13 +1035,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{[]interface{}{3, 4}, []interface{}{5, 6}}
 		/* nested.filter(lambda x: x.filter(lambda y: y >= 4).count() > 0) */
 
-		fmt.Println("About to run line #298: nested.Filter(func(x r.Term) interface{} { return x.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0)})")
+		suite.T().Log("About to run line #298: nested.Filter(func(x r.Term) interface{} { return x.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0)})")
 
 		runAndAssert(suite.Suite, expected_, nested.Filter(func(x r.Term) interface{} { return x.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0)}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #298")
+		suite.T().Log("Finished running line #298")
 	}
 
 	{
@@ -1050,13 +1050,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{[]interface{}{3, 4}, []interface{}{5, 6}}
 		/* nested.filter(r.row.filter(lambda y: y >= 4).count() > 0) */
 
-		fmt.Println("About to run line #303: nested.Filter(r.Row.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0))")
+		suite.T().Log("About to run line #303: nested.Filter(r.Row.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0))")
 
 		runAndAssert(suite.Suite, expected_, nested.Filter(r.Row.Filter(func(y r.Term) interface{} { return r.Ge(y, 4)}).Count().Gt(0)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #303")
+		suite.T().Log("Finished running line #303")
 	}
 
 	{
@@ -1065,13 +1065,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlCompileError", "Cannot use r.row in nested queries.  Use functions instead.")
 		/* nested.filter(lambda x: x.filter(r.row >= 4).count() > 0) */
 
-		fmt.Println("About to run line #307: nested.Filter(func(x r.Term) interface{} { return x.Filter(r.Row.Ge(4)).Count().Gt(0)})")
+		suite.T().Log("About to run line #307: nested.Filter(func(x r.Term) interface{} { return x.Filter(r.Row.Ge(4)).Count().Gt(0)})")
 
 		runAndAssert(suite.Suite, expected_, nested.Filter(func(x r.Term) interface{} { return x.Filter(r.Row.Ge(4)).Count().Gt(0)}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #307")
+		suite.T().Log("Finished running line #307")
 	}
 
 	{
@@ -1080,13 +1080,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlCompileError", "Cannot use r.row in nested queries.  Use functions instead.")
 		/* r.expr([[1, 2], [3, 4], [5, 6]]).filter(r.row.filter(r.row >= 4).count() > 0) */
 
-		fmt.Println("About to run line #311: r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}).Filter(r.Row.Filter(r.Row.Ge(4)).Count().Gt(0))")
+		suite.T().Log("About to run line #311: r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}).Filter(r.Row.Filter(r.Row.Ge(4)).Count().Gt(0))")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{[]interface{}{1, 2}, []interface{}{3, 4}, []interface{}{5, 6}}).Filter(r.Row.Filter(r.Row.Ge(4)).Count().Gt(0)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #311")
+		suite.T().Log("Finished running line #311")
 	}
 
 	{
@@ -1095,13 +1095,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"a": 1, "b": 2, "c": 3, }}
 		/* r.expr([{'a':1,'b':1,'c':3},{'a':1,'b':2,'c':3}]).filter({'a':1,'b':2}) */
 
-		fmt.Println("About to run line #316: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': 1, 'b': 2, })")
+		suite.T().Log("About to run line #316: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': 1, 'b': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{map[interface{}]interface{}{"a": 1, "b": 1, "c": 3, }, map[interface{}]interface{}{"a": 1, "b": 2, "c": 3, }}).Filter(map[interface{}]interface{}{"a": 1, "b": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #316")
+		suite.T().Log("Finished running line #316")
 	}
 
 	{
@@ -1110,13 +1110,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"a": 1, "b": 1, "c": 3, }, map[interface{}]interface{}{"a": 1, "b": 2, "c": 3, }}
 		/* r.expr([{'a':1,'b':1,'c':3},{'a':1,'b':2,'c':3}]).filter({'a':1}) */
 
-		fmt.Println("About to run line #319: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': 1, })")
+		suite.T().Log("About to run line #319: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': 1, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{map[interface{}]interface{}{"a": 1, "b": 1, "c": 3, }, map[interface{}]interface{}{"a": 1, "b": 2, "c": 3, }}).Filter(map[interface{}]interface{}{"a": 1, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #319")
+		suite.T().Log("Finished running line #319")
 	}
 
 	{
@@ -1125,13 +1125,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"a": 1, "b": 1, "c": 3, }}
 		/* r.expr([{'a':1,'b':1,'c':3},{'a':1,'b':2,'c':3}]).filter({'a':r.row['b']}) */
 
-		fmt.Println("About to run line #323: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': r.Row.AtIndex('b'), })")
+		suite.T().Log("About to run line #323: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, 'b': 1, 'c': 3, }, map[interface{}]interface{}{'a': 1, 'b': 2, 'c': 3, }}).Filter(map[interface{}]interface{}{'a': r.Row.AtIndex('b'), })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{map[interface{}]interface{}{"a": 1, "b": 1, "c": 3, }, map[interface{}]interface{}{"a": 1, "b": 2, "c": 3, }}).Filter(map[interface{}]interface{}{"a": r.Row.AtIndex("b"), }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #323")
+		suite.T().Log("Finished running line #323")
 	}
 
 	{
@@ -1140,13 +1140,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{}
 		/* r.expr([{'a':1}]).filter({'b':1}) */
 
-		fmt.Println("About to run line #329: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, }}).Filter(map[interface{}]interface{}{'b': 1, })")
+		suite.T().Log("About to run line #329: r.Expr([]interface{}{map[interface{}]interface{}{'a': 1, }}).Filter(map[interface{}]interface{}{'b': 1, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{map[interface{}]interface{}{"a": 1, }}).Filter(map[interface{}]interface{}{"b": 1, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #329")
+		suite.T().Log("Finished running line #329")
 	}
 
 	{
@@ -1155,13 +1155,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 25
 		/* tbl.count(lambda row: {'a':1}) */
 
-		fmt.Println("About to run line #335: tbl.Count(func(row r.Term) interface{} { return map[interface{}]interface{}{'a': 1, }})")
+		suite.T().Log("About to run line #335: tbl.Count(func(row r.Term) interface{} { return map[interface{}]interface{}{'a': 1, }})")
 
 		runAndAssert(suite.Suite, expected_, tbl.Count(func(row r.Term) interface{} { return map[interface{}]interface{}{"a": 1, }}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #335")
+		suite.T().Log("Finished running line #335")
 	}
 
 	{
@@ -1170,13 +1170,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 2
 		/* r.expr([1,2,3,1]).count(1) */
 
-		fmt.Println("About to run line #341: r.Expr([]interface{}{1, 2, 3, 1}).Count(1)")
+		suite.T().Log("About to run line #341: r.Expr([]interface{}{1, 2, 3, 1}).Count(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2, 3, 1}).Count(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #341")
+		suite.T().Log("Finished running line #341")
 	}
 
 	{
@@ -1185,13 +1185,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ int = 2
 		/* r.expr([null, 4, null, 'foo']).count(null) */
 
-		fmt.Println("About to run line #344: r.Expr([]interface{}{nil, 4, nil, 'foo'}).Count(nil)")
+		suite.T().Log("About to run line #344: r.Expr([]interface{}{nil, 4, nil, 'foo'}).Count(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{nil, 4, nil, "foo"}).Count(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #344")
+		suite.T().Log("Finished running line #344")
 	}
 
 	{
@@ -1200,13 +1200,13 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type DATUM but found TABLE:")
 		/* r.expr(5) + tbl */
 
-		fmt.Println("About to run line #348: r.Expr(5).Add(tbl)")
+		suite.T().Log("About to run line #348: r.Expr(5).Add(tbl)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(5).Add(tbl), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #348")
+		suite.T().Log("Finished running line #348")
 	}
 
 	{
@@ -1215,12 +1215,12 @@ func (suite *SelectionSuite) TestCases() {
 		var expected_ string = "SELECTION<STREAM>"
 		/* tbl.has_fields('field').type_of() */
 
-		fmt.Println("About to run line #353: tbl.HasFields('field').TypeOf()")
+		suite.T().Log("About to run line #353: tbl.HasFields('field').TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl.HasFields("field").TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #353")
+		suite.T().Log("Finished running line #353")
 	}
 }

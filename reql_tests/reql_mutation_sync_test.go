@@ -25,7 +25,7 @@ type MutationSyncSuite struct {
 }
 
 func (suite *MutationSyncSuite) SetupTest() {
-	fmt.Println("Setting up MutationSyncSuite")
+	suite.T().Log("Setting up MutationSyncSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MutationSyncSuite) SetupTest() {
 }
 
 func (suite *MutationSyncSuite) TearDownSuite() {
-	fmt.Println("Tearing down MutationSyncSuite")
+	suite.T().Log("Tearing down MutationSyncSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MutationSyncSuite) TearDownSuite() {
 }
 
 func (suite *MutationSyncSuite) TestCases() {
-	fmt.Println("Running MutationSyncSuite: Tests syncing tables")
+	suite.T().Log("Running MutationSyncSuite: Tests syncing tables")
 
 
 
@@ -65,13 +65,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"tables_created": 1, })
 		/* r.db('test').table_create('test1') */
 
-		fmt.Println("About to run line #5: r.DB('test').TableCreate('test1')")
+		suite.T().Log("About to run line #5: r.DB('test').TableCreate('test1')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").TableCreate("test1"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #5")
+		suite.T().Log("Finished running line #5")
 	}
 
 	{
@@ -80,13 +80,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"tables_created": 1, })
 		/* r.db('test').table_create('test1soft') */
 
-		fmt.Println("About to run line #7: r.DB('test').TableCreate('test1soft')")
+		suite.T().Log("About to run line #7: r.DB('test').TableCreate('test1soft')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").TableCreate("test1soft"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #7")
+		suite.T().Log("Finished running line #7")
 	}
 
 	{
@@ -95,18 +95,18 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"skipped": 0, "deleted": 0, "unchanged": 0, "errors": 0, "replaced": 1, "inserted": 0, }
 		/* r.db('test').table('test1soft').config().update({'durability':'soft'}) */
 
-		fmt.Println("About to run line #9: r.DB('test').Table('test1soft').Config().Update(map[interface{}]interface{}{'durability': 'soft', })")
+		suite.T().Log("About to run line #9: r.DB('test').Table('test1soft').Config().Update(map[interface{}]interface{}{'durability': 'soft', })")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").Table("test1soft").Config().Update(map[interface{}]interface{}{"durability": "soft", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #9")
+		suite.T().Log("Finished running line #9")
 	}
 
 	// mutation/sync.yaml line #11
 	// tbl = r.db('test').table('test1')
-	fmt.Println("Possibly executing: var tbl r.Term = r.DB('test').Table('test1')")
+	suite.T().Log("Possibly executing: var tbl r.Term = r.DB('test').Table('test1')")
 
 	tbl := r.DB("test").Table("test1")
 	_ = tbl // Prevent any noused variable errors
@@ -114,7 +114,7 @@ func (suite *MutationSyncSuite) TestCases() {
 
 	// mutation/sync.yaml line #12
 	// tbl_soft = r.db('test').table('test1soft')
-	fmt.Println("Possibly executing: var tbl_soft r.Term = r.DB('test').Table('test1soft')")
+	suite.T().Log("Possibly executing: var tbl_soft r.Term = r.DB('test').Table('test1soft')")
 
 	tbl_soft := r.DB("test").Table("test1soft")
 	_ = tbl_soft // Prevent any noused variable errors
@@ -126,13 +126,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"created": 1, })
 		/* tbl.index_create('x') */
 
-		fmt.Println("About to run line #13: tbl.IndexCreate('x')")
+		suite.T().Log("About to run line #13: tbl.IndexCreate('x')")
 
 		runAndAssert(suite.Suite, expected_, tbl.IndexCreate("x"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #13")
+		suite.T().Log("Finished running line #13")
 	}
 
 	{
@@ -141,13 +141,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"ready": true, "index": "x", }}
 		/* tbl.index_wait('x').pluck('index', 'ready') */
 
-		fmt.Println("About to run line #15: tbl.IndexWait('x').Pluck('index', 'ready')")
+		suite.T().Log("About to run line #15: tbl.IndexWait('x').Pluck('index', 'ready')")
 
 		runAndAssert(suite.Suite, expected_, tbl.IndexWait("x").Pluck("index", "ready"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #15")
+		suite.T().Log("Finished running line #15")
 	}
 
 	{
@@ -156,13 +156,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"synced": 1, }
 		/* tbl.sync() */
 
-		fmt.Println("About to run line #19: tbl.Sync()")
+		suite.T().Log("About to run line #19: tbl.Sync()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Sync(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #19")
+		suite.T().Log("Finished running line #19")
 	}
 
 	{
@@ -171,13 +171,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"synced": 1, }
 		/* tbl_soft.sync() */
 
-		fmt.Println("About to run line #21: tbl_soft.Sync()")
+		suite.T().Log("About to run line #21: tbl_soft.Sync()")
 
 		runAndAssert(suite.Suite, expected_, tbl_soft.Sync(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #21")
+		suite.T().Log("Finished running line #21")
 	}
 
 	{
@@ -186,14 +186,14 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"synced": 1, }
 		/* tbl.sync() */
 
-		fmt.Println("About to run line #23: tbl.Sync()")
+		suite.T().Log("About to run line #23: tbl.Sync()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Sync(), suite.session, r.RunOpts{
+			Durability: "soft",
 			GeometryFormat: "raw",
 			GroupFormat: "map",
-			Durability: "soft",
 		})
-		fmt.Println("Finished running line #23")
+		suite.T().Log("Finished running line #23")
 	}
 
 	{
@@ -202,14 +202,14 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"synced": 1, }
 		/* tbl.sync() */
 
-		fmt.Println("About to run line #27: tbl.Sync()")
+		suite.T().Log("About to run line #27: tbl.Sync()")
 
 		runAndAssert(suite.Suite, expected_, tbl.Sync(), suite.session, r.RunOpts{
+			Durability: "hard",
 			GeometryFormat: "raw",
 			GroupFormat: "map",
-			Durability: "hard",
 		})
-		fmt.Println("Finished running line #27")
+		suite.T().Log("Finished running line #27")
 	}
 
 	{
@@ -218,13 +218,13 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"tables_dropped": 1, })
 		/* r.db('test').table_drop('test1') */
 
-		fmt.Println("About to run line #48: r.DB('test').TableDrop('test1')")
+		suite.T().Log("About to run line #48: r.DB('test').TableDrop('test1')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").TableDrop("test1"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #48")
+		suite.T().Log("Finished running line #48")
 	}
 
 	{
@@ -233,12 +233,12 @@ func (suite *MutationSyncSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"tables_dropped": 1, })
 		/* r.db('test').table_drop('test1soft') */
 
-		fmt.Println("About to run line #50: r.DB('test').TableDrop('test1soft')")
+		suite.T().Log("About to run line #50: r.DB('test').TableDrop('test1soft')")
 
 		runAndAssert(suite.Suite, expected_, r.DB("test").TableDrop("test1soft"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #50")
+		suite.T().Log("Finished running line #50")
 	}
 }

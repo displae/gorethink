@@ -25,7 +25,7 @@ type MathLogicComparisonSuite struct {
 }
 
 func (suite *MathLogicComparisonSuite) SetupTest() {
-	fmt.Println("Setting up MathLogicComparisonSuite")
+	suite.T().Log("Setting up MathLogicComparisonSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MathLogicComparisonSuite) SetupTest() {
 }
 
 func (suite *MathLogicComparisonSuite) TearDownSuite() {
-	fmt.Println("Tearing down MathLogicComparisonSuite")
+	suite.T().Log("Tearing down MathLogicComparisonSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MathLogicComparisonSuite) TearDownSuite() {
 }
 
 func (suite *MathLogicComparisonSuite) TestCases() {
-	fmt.Println("Running MathLogicComparisonSuite: Tests of comparison operators")
+	suite.T().Log("Running MathLogicComparisonSuite: Tests of comparison operators")
 
 
 
@@ -65,13 +65,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1) < 2 */
 
-		fmt.Println("About to run line #10: r.Expr(1).Lt(2)")
+		suite.T().Log("About to run line #10: r.Expr(1).Lt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Lt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #10")
+		suite.T().Log("Finished running line #10")
 	}
 
 	{
@@ -80,13 +80,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 1 < r.expr(2) */
 
-		fmt.Println("About to run line #11: r.Lt(1, r.Expr(2))")
+		suite.T().Log("About to run line #11: r.Lt(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Lt(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #11")
+		suite.T().Log("Finished running line #11")
 	}
 
 	{
@@ -95,13 +95,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1).lt(2) */
 
-		fmt.Println("About to run line #12: r.Expr(1).Lt(2)")
+		suite.T().Log("About to run line #12: r.Expr(1).Lt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Lt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #12")
+		suite.T().Log("Finished running line #12")
 	}
 
 	{
@@ -110,13 +110,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(3) < 2 */
 
-		fmt.Println("About to run line #19: r.Expr(3).Lt(2)")
+		suite.T().Log("About to run line #19: r.Expr(3).Lt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Lt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #19")
+		suite.T().Log("Finished running line #19")
 	}
 
 	{
@@ -125,13 +125,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(2) < 2 */
 
-		fmt.Println("About to run line #22: r.Expr(2).Lt(2)")
+		suite.T().Log("About to run line #22: r.Expr(2).Lt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Lt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #22")
+		suite.T().Log("Finished running line #22")
 	}
 
 	{
@@ -140,13 +140,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1) > 2 */
 
-		fmt.Println("About to run line #38: r.Expr(1).Gt(2)")
+		suite.T().Log("About to run line #38: r.Expr(1).Gt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Gt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #38")
+		suite.T().Log("Finished running line #38")
 	}
 
 	{
@@ -155,13 +155,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* 1 > r.expr(2) */
 
-		fmt.Println("About to run line #39: r.Gt(1, r.Expr(2))")
+		suite.T().Log("About to run line #39: r.Gt(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Gt(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #39")
+		suite.T().Log("Finished running line #39")
 	}
 
 	{
@@ -170,13 +170,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1).gt(2) */
 
-		fmt.Println("About to run line #40: r.Expr(1).Gt(2)")
+		suite.T().Log("About to run line #40: r.Expr(1).Gt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Gt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #40")
+		suite.T().Log("Finished running line #40")
 	}
 
 	{
@@ -185,13 +185,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(3) > 2 */
 
-		fmt.Println("About to run line #45: r.Expr(3).Gt(2)")
+		suite.T().Log("About to run line #45: r.Expr(3).Gt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Gt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #45")
+		suite.T().Log("Finished running line #45")
 	}
 
 	{
@@ -200,13 +200,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(2) > 2 */
 
-		fmt.Println("About to run line #49: r.Expr(2).Gt(2)")
+		suite.T().Log("About to run line #49: r.Expr(2).Gt(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Gt(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #49")
+		suite.T().Log("Finished running line #49")
 	}
 
 	{
@@ -215,13 +215,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1) == 2 */
 
-		fmt.Println("About to run line #63: r.Expr(1).Eq(2)")
+		suite.T().Log("About to run line #63: r.Expr(1).Eq(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Eq(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #63")
+		suite.T().Log("Finished running line #63")
 	}
 
 	{
@@ -230,13 +230,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* 1 == r.expr(2) */
 
-		fmt.Println("About to run line #64: r.Eq(1, r.Expr(2))")
+		suite.T().Log("About to run line #64: r.Eq(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #64")
+		suite.T().Log("Finished running line #64")
 	}
 
 	{
@@ -245,13 +245,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1).eq(2) */
 
-		fmt.Println("About to run line #65: r.Expr(1).Eq(2)")
+		suite.T().Log("About to run line #65: r.Expr(1).Eq(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Eq(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #65")
+		suite.T().Log("Finished running line #65")
 	}
 
 	{
@@ -260,13 +260,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(3) == 2 */
 
-		fmt.Println("About to run line #68: r.Expr(3).Eq(2)")
+		suite.T().Log("About to run line #68: r.Expr(3).Eq(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Eq(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #68")
+		suite.T().Log("Finished running line #68")
 	}
 
 	{
@@ -275,13 +275,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(2) == 2 */
 
-		fmt.Println("About to run line #72: r.Expr(2).Eq(2)")
+		suite.T().Log("About to run line #72: r.Expr(2).Eq(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Eq(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #72")
+		suite.T().Log("Finished running line #72")
 	}
 
 	{
@@ -290,13 +290,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1) != 2 */
 
-		fmt.Println("About to run line #86: r.Expr(1).Ne(2)")
+		suite.T().Log("About to run line #86: r.Expr(1).Ne(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Ne(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #86")
+		suite.T().Log("Finished running line #86")
 	}
 
 	{
@@ -305,13 +305,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 1 != r.expr(2) */
 
-		fmt.Println("About to run line #87: r.Ne(1, r.Expr(2))")
+		suite.T().Log("About to run line #87: r.Ne(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Ne(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #87")
+		suite.T().Log("Finished running line #87")
 	}
 
 	{
@@ -320,13 +320,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1).ne(2) */
 
-		fmt.Println("About to run line #88: r.Expr(1).Ne(2)")
+		suite.T().Log("About to run line #88: r.Expr(1).Ne(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Ne(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #88")
+		suite.T().Log("Finished running line #88")
 	}
 
 	{
@@ -335,13 +335,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(3) != 2 */
 
-		fmt.Println("About to run line #91: r.Expr(3).Ne(2)")
+		suite.T().Log("About to run line #91: r.Expr(3).Ne(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Ne(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #91")
+		suite.T().Log("Finished running line #91")
 	}
 
 	{
@@ -350,13 +350,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(2) != 2 */
 
-		fmt.Println("About to run line #95: r.Expr(2).Ne(2)")
+		suite.T().Log("About to run line #95: r.Expr(2).Ne(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Ne(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #95")
+		suite.T().Log("Finished running line #95")
 	}
 
 	{
@@ -365,13 +365,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1) <= 2 */
 
-		fmt.Println("About to run line #109: r.Expr(1).Le(2)")
+		suite.T().Log("About to run line #109: r.Expr(1).Le(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Le(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #109")
+		suite.T().Log("Finished running line #109")
 	}
 
 	{
@@ -380,13 +380,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 1 <= r.expr(2) */
 
-		fmt.Println("About to run line #110: r.Le(1, r.Expr(2))")
+		suite.T().Log("About to run line #110: r.Le(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Le(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #110")
+		suite.T().Log("Finished running line #110")
 	}
 
 	{
@@ -395,13 +395,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(1).le(2) */
 
-		fmt.Println("About to run line #111: r.Expr(1).Le(2)")
+		suite.T().Log("About to run line #111: r.Expr(1).Le(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Le(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #111")
+		suite.T().Log("Finished running line #111")
 	}
 
 	{
@@ -410,13 +410,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(3) <= 2 */
 
-		fmt.Println("About to run line #116: r.Expr(3).Le(2)")
+		suite.T().Log("About to run line #116: r.Expr(3).Le(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Le(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #116")
+		suite.T().Log("Finished running line #116")
 	}
 
 	{
@@ -425,13 +425,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(2) <= 2 */
 
-		fmt.Println("About to run line #120: r.Expr(2).Le(2)")
+		suite.T().Log("About to run line #120: r.Expr(2).Le(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Le(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #120")
+		suite.T().Log("Finished running line #120")
 	}
 
 	{
@@ -440,13 +440,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1) >= 2 */
 
-		fmt.Println("About to run line #134: r.Expr(1).Ge(2)")
+		suite.T().Log("About to run line #134: r.Expr(1).Ge(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Ge(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #134")
+		suite.T().Log("Finished running line #134")
 	}
 
 	{
@@ -455,13 +455,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* 1 >= r.expr(2) */
 
-		fmt.Println("About to run line #135: r.Ge(1, r.Expr(2))")
+		suite.T().Log("About to run line #135: r.Ge(1, r.Expr(2))")
 
 		runAndAssert(suite.Suite, expected_, r.Ge(1, r.Expr(2)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #135")
+		suite.T().Log("Finished running line #135")
 	}
 
 	{
@@ -470,13 +470,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(1).ge(2) */
 
-		fmt.Println("About to run line #136: r.Expr(1).Ge(2)")
+		suite.T().Log("About to run line #136: r.Expr(1).Ge(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(1).Ge(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #136")
+		suite.T().Log("Finished running line #136")
 	}
 
 	{
@@ -485,13 +485,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(3) >= 2 */
 
-		fmt.Println("About to run line #141: r.Expr(3).Ge(2)")
+		suite.T().Log("About to run line #141: r.Expr(3).Ge(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(3).Ge(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #141")
+		suite.T().Log("Finished running line #141")
 	}
 
 	{
@@ -500,13 +500,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(2) >= 2 */
 
-		fmt.Println("About to run line #145: r.Expr(2).Ge(2)")
+		suite.T().Log("About to run line #145: r.Expr(2).Ge(2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(2).Ge(2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #145")
+		suite.T().Log("Finished running line #145")
 	}
 
 	{
@@ -515,13 +515,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(null) == null */
 
-		fmt.Println("About to run line #158: r.Expr(nil).Eq(nil)")
+		suite.T().Log("About to run line #158: r.Expr(nil).Eq(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Eq(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #158")
+		suite.T().Log("Finished running line #158")
 	}
 
 	{
@@ -530,13 +530,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* null == r.expr(null) */
 
-		fmt.Println("About to run line #159: r.Eq(nil, r.Expr(nil))")
+		suite.T().Log("About to run line #159: r.Eq(nil, r.Expr(nil))")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(nil, r.Expr(nil)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #159")
+		suite.T().Log("Finished running line #159")
 	}
 
 	{
@@ -545,13 +545,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(null) < null */
 
-		fmt.Println("About to run line #164: r.Expr(nil).Lt(nil)")
+		suite.T().Log("About to run line #164: r.Expr(nil).Lt(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Lt(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #164")
+		suite.T().Log("Finished running line #164")
 	}
 
 	{
@@ -560,13 +560,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* null < r.expr(null) */
 
-		fmt.Println("About to run line #165: r.Lt(nil, r.Expr(nil))")
+		suite.T().Log("About to run line #165: r.Lt(nil, r.Expr(nil))")
 
 		runAndAssert(suite.Suite, expected_, r.Lt(nil, r.Expr(nil)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #165")
+		suite.T().Log("Finished running line #165")
 	}
 
 	{
@@ -575,13 +575,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(null).lt(null) */
 
-		fmt.Println("About to run line #166: r.Expr(nil).Lt(nil)")
+		suite.T().Log("About to run line #166: r.Expr(nil).Lt(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Lt(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #166")
+		suite.T().Log("Finished running line #166")
 	}
 
 	{
@@ -590,13 +590,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(null) > null */
 
-		fmt.Println("About to run line #172: r.Expr(nil).Gt(nil)")
+		suite.T().Log("About to run line #172: r.Expr(nil).Gt(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Gt(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #172")
+		suite.T().Log("Finished running line #172")
 	}
 
 	{
@@ -605,13 +605,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* null > r.expr(null) */
 
-		fmt.Println("About to run line #173: r.Gt(nil, r.Expr(nil))")
+		suite.T().Log("About to run line #173: r.Gt(nil, r.Expr(nil))")
 
 		runAndAssert(suite.Suite, expected_, r.Gt(nil, r.Expr(nil)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #173")
+		suite.T().Log("Finished running line #173")
 	}
 
 	{
@@ -620,13 +620,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(null).gt(null) */
 
-		fmt.Println("About to run line #174: r.Expr(nil).Gt(nil)")
+		suite.T().Log("About to run line #174: r.Expr(nil).Gt(nil)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Gt(nil), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #174")
+		suite.T().Log("Finished running line #174")
 	}
 
 	{
@@ -635,13 +635,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('a') == 'a' */
 
-		fmt.Println("About to run line #180: r.Expr('a').Eq('a')")
+		suite.T().Log("About to run line #180: r.Expr('a').Eq('a')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Eq("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #180")
+		suite.T().Log("Finished running line #180")
 	}
 
 	{
@@ -650,13 +650,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr('a') == 'aa' */
 
-		fmt.Println("About to run line #184: r.Expr('a').Eq('aa')")
+		suite.T().Log("About to run line #184: r.Expr('a').Eq('aa')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Eq("aa"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #184")
+		suite.T().Log("Finished running line #184")
 	}
 
 	{
@@ -665,13 +665,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('a') < 'aa' */
 
-		fmt.Println("About to run line #188: r.Expr('a').Lt('aa')")
+		suite.T().Log("About to run line #188: r.Expr('a').Lt('aa')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Lt("aa"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #188")
+		suite.T().Log("Finished running line #188")
 	}
 
 	{
@@ -680,13 +680,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('a') < 'bb' */
 
-		fmt.Println("About to run line #192: r.Expr('a').Lt('bb')")
+		suite.T().Log("About to run line #192: r.Expr('a').Lt('bb')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Lt("bb"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #192")
+		suite.T().Log("Finished running line #192")
 	}
 
 	{
@@ -695,13 +695,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('bb') > 'a' */
 
-		fmt.Println("About to run line #196: r.Expr('bb').Gt('a')")
+		suite.T().Log("About to run line #196: r.Expr('bb').Gt('a')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("bb").Gt("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #196")
+		suite.T().Log("Finished running line #196")
 	}
 
 	{
@@ -710,13 +710,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('abcdef') < 'abcdeg' */
 
-		fmt.Println("About to run line #200: r.Expr('abcdef').Lt('abcdeg')")
+		suite.T().Log("About to run line #200: r.Expr('abcdef').Lt('abcdeg')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abcdef").Lt("abcdeg"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #200")
+		suite.T().Log("Finished running line #200")
 	}
 
 	{
@@ -725,13 +725,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr('abcdefg') > 'abcdeg' */
 
-		fmt.Println("About to run line #204: r.Expr('abcdefg').Gt('abcdeg')")
+		suite.T().Log("About to run line #204: r.Expr('abcdefg').Gt('abcdeg')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abcdefg").Gt("abcdeg"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #204")
+		suite.T().Log("Finished running line #204")
 	}
 
 	{
@@ -740,13 +740,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('A quick brown fox') > 'A quick brawn fox' */
 
-		fmt.Println("About to run line #208: r.Expr('A quick brown fox').Gt('A quick brawn fox')")
+		suite.T().Log("About to run line #208: r.Expr('A quick brown fox').Gt('A quick brawn fox')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("A quick brown fox").Gt("A quick brawn fox"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #208")
+		suite.T().Log("Finished running line #208")
 	}
 
 	{
@@ -755,13 +755,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1]) < [2] */
 
-		fmt.Println("About to run line #216: r.Expr([]interface{}{1}).Lt([]interface{}{2})")
+		suite.T().Log("About to run line #216: r.Expr([]interface{}{1}).Lt([]interface{}{2})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1}).Lt([]interface{}{2}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #216")
+		suite.T().Log("Finished running line #216")
 	}
 
 	{
@@ -770,13 +770,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr([1]) > [2] */
 
-		fmt.Println("About to run line #221: r.Expr([]interface{}{1}).Gt([]interface{}{2})")
+		suite.T().Log("About to run line #221: r.Expr([]interface{}{1}).Gt([]interface{}{2})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1}).Gt([]interface{}{2}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #221")
+		suite.T().Log("Finished running line #221")
 	}
 
 	{
@@ -785,13 +785,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1, 0]) < [2] */
 
-		fmt.Println("About to run line #226: r.Expr([]interface{}{1, 0}).Lt([]interface{}{2})")
+		suite.T().Log("About to run line #226: r.Expr([]interface{}{1, 0}).Lt([]interface{}{2})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 0}).Lt([]interface{}{2}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #226")
+		suite.T().Log("Finished running line #226")
 	}
 
 	{
@@ -800,13 +800,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr([1, 0]) < [1] */
 
-		fmt.Println("About to run line #231: r.Expr([]interface{}{1, 0}).Lt([]interface{}{1})")
+		suite.T().Log("About to run line #231: r.Expr([]interface{}{1, 0}).Lt([]interface{}{1})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 0}).Lt([]interface{}{1}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #231")
+		suite.T().Log("Finished running line #231")
 	}
 
 	{
@@ -815,13 +815,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1, 0]) > [0] */
 
-		fmt.Println("About to run line #236: r.Expr([]interface{}{1, 0}).Gt([]interface{}{0})")
+		suite.T().Log("About to run line #236: r.Expr([]interface{}{1, 0}).Gt([]interface{}{0})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 0}).Gt([]interface{}{0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #236")
+		suite.T().Log("Finished running line #236")
 	}
 
 	{
@@ -830,13 +830,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1, 'a']) < [1, 'b'] */
 
-		fmt.Println("About to run line #241: r.Expr([]interface{}{1, 'a'}).Lt([]interface{}{1, 'b'})")
+		suite.T().Log("About to run line #241: r.Expr([]interface{}{1, 'a'}).Lt([]interface{}{1, 'b'})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, "a"}).Lt([]interface{}{1, "b"}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #241")
+		suite.T().Log("Finished running line #241")
 	}
 
 	{
@@ -845,13 +845,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([0, 'z']) < [1, 'b'] */
 
-		fmt.Println("About to run line #246: r.Expr([]interface{}{0, 'z'}).Lt([]interface{}{1, 'b'})")
+		suite.T().Log("About to run line #246: r.Expr([]interface{}{0, 'z'}).Lt([]interface{}{1, 'b'})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{0, "z"}).Lt([]interface{}{1, "b"}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #246")
+		suite.T().Log("Finished running line #246")
 	}
 
 	{
@@ -860,13 +860,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr([1, 1, 1]) < [1, 0, 2] */
 
-		fmt.Println("About to run line #251: r.Expr([]interface{}{1, 1, 1}).Lt([]interface{}{1, 0, 2})")
+		suite.T().Log("About to run line #251: r.Expr([]interface{}{1, 1, 1}).Lt([]interface{}{1, 0, 2})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 1, 1}).Lt([]interface{}{1, 0, 2}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #251")
+		suite.T().Log("Finished running line #251")
 	}
 
 	{
@@ -875,13 +875,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1, 0, 2]) < [1, 1, 1] */
 
-		fmt.Println("About to run line #256: r.Expr([]interface{}{1, 0, 2}).Lt([]interface{}{1, 1, 1})")
+		suite.T().Log("About to run line #256: r.Expr([]interface{}{1, 0, 2}).Lt([]interface{}{1, 1, 1})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 0, 2}).Lt([]interface{}{1, 1, 1}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #256")
+		suite.T().Log("Finished running line #256")
 	}
 
 	{
@@ -890,13 +890,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':0}) == {'a':0} */
 
-		fmt.Println("About to run line #263: r.Expr(map[interface{}]interface{}{'a': 0, }).Eq(map[interface{}]interface{}{'a': 0, })")
+		suite.T().Log("About to run line #263: r.Expr(map[interface{}]interface{}{'a': 0, }).Eq(map[interface{}]interface{}{'a': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, }).Eq(map[interface{}]interface{}{"a": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #263")
+		suite.T().Log("Finished running line #263")
 	}
 
 	{
@@ -905,13 +905,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':0, 'b':1}) == {'b':1, 'a':0} */
 
-		fmt.Println("About to run line #267: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, })")
+		suite.T().Log("About to run line #267: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, }).Eq(map[interface{}]interface{}{"b": 1, "a": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #267")
+		suite.T().Log("Finished running line #267")
 	}
 
 	{
@@ -920,13 +920,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'b':1, 'c':2}) == {'b':1, 'a':0} */
 
-		fmt.Println("About to run line #271: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, })")
+		suite.T().Log("About to run line #271: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }).Eq(map[interface{}]interface{}{"b": 1, "a": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #271")
+		suite.T().Log("Finished running line #271")
 	}
 
 	{
@@ -935,13 +935,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'b':1}) == {'b':1, 'a':0, 'c':2} */
 
-		fmt.Println("About to run line #275: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, 'c': 2, })")
+		suite.T().Log("About to run line #275: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, }).Eq(map[interface{}]interface{}{"b": 1, "a": 0, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #275")
+		suite.T().Log("Finished running line #275")
 	}
 
 	{
@@ -950,13 +950,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'b':1, 'd':2}) == {'b':1, 'a':0, 'c':2} */
 
-		fmt.Println("About to run line #279: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'd': 2, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, 'c': 2, })")
+		suite.T().Log("About to run line #279: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'd': 2, }).Eq(map[interface{}]interface{}{'b': 1, 'a': 0, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, "d": 2, }).Eq(map[interface{}]interface{}{"b": 1, "a": 0, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #279")
+		suite.T().Log("Finished running line #279")
 	}
 
 	{
@@ -965,13 +965,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':0}) < {'b':0} */
 
-		fmt.Println("About to run line #283: r.Expr(map[interface{}]interface{}{'a': 0, }).Lt(map[interface{}]interface{}{'b': 0, })")
+		suite.T().Log("About to run line #283: r.Expr(map[interface{}]interface{}{'a': 0, }).Lt(map[interface{}]interface{}{'b': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, }).Lt(map[interface{}]interface{}{"b": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #283")
+		suite.T().Log("Finished running line #283")
 	}
 
 	{
@@ -980,13 +980,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':1}) < {'b':0} */
 
-		fmt.Println("About to run line #287: r.Expr(map[interface{}]interface{}{'a': 1, }).Lt(map[interface{}]interface{}{'b': 0, })")
+		suite.T().Log("About to run line #287: r.Expr(map[interface{}]interface{}{'a': 1, }).Lt(map[interface{}]interface{}{'b': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 1, }).Lt(map[interface{}]interface{}{"b": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #287")
+		suite.T().Log("Finished running line #287")
 	}
 
 	{
@@ -995,13 +995,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'b':1}) < {'b':0} */
 
-		fmt.Println("About to run line #291: r.Expr(map[interface{}]interface{}{'b': 1, }).Lt(map[interface{}]interface{}{'b': 0, })")
+		suite.T().Log("About to run line #291: r.Expr(map[interface{}]interface{}{'b': 1, }).Lt(map[interface{}]interface{}{'b': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"b": 1, }).Lt(map[interface{}]interface{}{"b": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #291")
+		suite.T().Log("Finished running line #291")
 	}
 
 	{
@@ -1010,13 +1010,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'b':1}) < {'a':0} */
 
-		fmt.Println("About to run line #295: r.Expr(map[interface{}]interface{}{'b': 1, }).Lt(map[interface{}]interface{}{'a': 0, })")
+		suite.T().Log("About to run line #295: r.Expr(map[interface{}]interface{}{'b': 1, }).Lt(map[interface{}]interface{}{'a': 0, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"b": 1, }).Lt(map[interface{}]interface{}{"a": 0, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #295")
+		suite.T().Log("Finished running line #295")
 	}
 
 	{
@@ -1025,13 +1025,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'b':1, 'c':2}) < {'a':0, 'b':1, 'c':2} */
 
-		fmt.Println("About to run line #299: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
+		suite.T().Log("About to run line #299: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }).Lt(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #299")
+		suite.T().Log("Finished running line #299")
 	}
 
 	{
@@ -1040,13 +1040,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'b':1, 'c':2, 'd':3}) < {'a':0, 'b':1, 'c':2} */
 
-		fmt.Println("About to run line #303: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, 'd': 3, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
+		suite.T().Log("About to run line #303: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, 'd': 3, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, "d": 3, }).Lt(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #303")
+		suite.T().Log("Finished running line #303")
 	}
 
 	{
@@ -1055,13 +1055,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':0, 'b':1, 'c':2}) < {'a':0, 'b':1, 'c':2, 'd':3} */
 
-		fmt.Println("About to run line #307: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, 'd': 3, })")
+		suite.T().Log("About to run line #307: r.Expr(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, 'd': 3, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }).Lt(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, "d": 3, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #307")
+		suite.T().Log("Finished running line #307")
 	}
 
 	{
@@ -1070,13 +1070,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr({'a':0, 'c':2}) < {'a':0, 'b':1, 'c':2} */
 
-		fmt.Println("About to run line #311: r.Expr(map[interface{}]interface{}{'a': 0, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
+		suite.T().Log("About to run line #311: r.Expr(map[interface{}]interface{}{'a': 0, 'c': 2, }).Lt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "c": 2, }).Lt(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #311")
+		suite.T().Log("Finished running line #311")
 	}
 
 	{
@@ -1085,18 +1085,18 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr({'a':0, 'c':2}) > {'a':0, 'b':1, 'c':2} */
 
-		fmt.Println("About to run line #315: r.Expr(map[interface{}]interface{}{'a': 0, 'c': 2, }).Gt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
+		suite.T().Log("About to run line #315: r.Expr(map[interface{}]interface{}{'a': 0, 'c': 2, }).Gt(map[interface{}]interface{}{'a': 0, 'b': 1, 'c': 2, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(map[interface{}]interface{}{"a": 0, "c": 2, }).Gt(map[interface{}]interface{}{"a": 0, "b": 1, "c": 2, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #315")
+		suite.T().Log("Finished running line #315")
 	}
 
 	// math_logic/comparison.yaml line #331
 	// everything = r.expr([[],r.now(),r.binary(b"\x00"),false,null,-5,{},"a",r.maxval])
-	fmt.Println("Possibly executing: var everything r.Term = r.Expr([]interface{}{[]interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, 'a', r.MaxVal})")
+	suite.T().Log("Possibly executing: var everything r.Term = r.Expr([]interface{}{[]interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, 'a', r.MaxVal})")
 
 	everything := r.Expr([]interface{}{[]interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, "a", r.MaxVal})
 	_ = everything // Prevent any noused variable errors
@@ -1108,13 +1108,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.and_(r.args(everything.map(r.lt(r.minval, r.row)))) */
 
-		fmt.Println("About to run line #336: r.And(r.Args(everything.Map(r.Lt(r.MinVal, r.Row))))")
+		suite.T().Log("About to run line #336: r.And(r.Args(everything.Map(r.Lt(r.MinVal, r.Row))))")
 
 		runAndAssert(suite.Suite, expected_, r.And(r.Args(everything.Map(r.Lt(r.MinVal, r.Row)))), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #336")
+		suite.T().Log("Finished running line #336")
 	}
 
 	{
@@ -1123,13 +1123,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.or_(r.args(everything.map(r.gt(r.minval, r.row)))) */
 
-		fmt.Println("About to run line #341: r.Or(r.Args(everything.Map(r.Gt(r.MinVal, r.Row))))")
+		suite.T().Log("About to run line #341: r.Or(r.Args(everything.Map(r.Gt(r.MinVal, r.Row))))")
 
 		runAndAssert(suite.Suite, expected_, r.Or(r.Args(everything.Map(r.Gt(r.MinVal, r.Row)))), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #341")
+		suite.T().Log("Finished running line #341")
 	}
 
 	{
@@ -1138,13 +1138,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.eq(r.minval, r.minval) */
 
-		fmt.Println("About to run line #345: r.Eq(r.MinVal, r.MinVal)")
+		suite.T().Log("About to run line #345: r.Eq(r.MinVal, r.MinVal)")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(r.MinVal, r.MinVal), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #345")
+		suite.T().Log("Finished running line #345")
 	}
 
 	{
@@ -1153,13 +1153,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([]) < True */
 
-		fmt.Println("About to run line #348: r.Expr([]interface{}{}).Lt(true)")
+		suite.T().Log("About to run line #348: r.Expr([]interface{}{}).Lt(true)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{}).Lt(true), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #348")
+		suite.T().Log("Finished running line #348")
 	}
 
 	{
@@ -1168,13 +1168,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1,2]) < False */
 
-		fmt.Println("About to run line #353: r.Expr([]interface{}{1, 2}).Lt(false)")
+		suite.T().Log("About to run line #353: r.Expr([]interface{}{1, 2}).Lt(false)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2}).Lt(false), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #353")
+		suite.T().Log("Finished running line #353")
 	}
 
 	{
@@ -1183,13 +1183,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(False) < [] */
 
-		fmt.Println("About to run line #358: r.Expr(false).Lt([]interface{}{})")
+		suite.T().Log("About to run line #358: r.Expr(false).Lt([]interface{}{})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(false).Lt([]interface{}{}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #358")
+		suite.T().Log("Finished running line #358")
 	}
 
 	{
@@ -1198,13 +1198,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([]) < r.binary(b"\xAE") */
 
-		fmt.Println("About to run line #363: r.Expr([]interface{}{}).Lt(r.Binary([]byte{174}))")
+		suite.T().Log("About to run line #363: r.Expr([]interface{}{}).Lt(r.Binary([]byte{174}))")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{}).Lt(r.Binary([]byte{174})), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #363")
+		suite.T().Log("Finished running line #363")
 	}
 
 	{
@@ -1213,13 +1213,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr([1,2]) < r.binary(b"\xAE") */
 
-		fmt.Println("About to run line #368: r.Expr([]interface{}{1, 2}).Lt(r.Binary([]byte{174}))")
+		suite.T().Log("About to run line #368: r.Expr([]interface{}{1, 2}).Lt(r.Binary([]byte{174}))")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2}).Lt(r.Binary([]byte{174})), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #368")
+		suite.T().Log("Finished running line #368")
 	}
 
 	{
@@ -1228,13 +1228,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* True < r.expr(null) */
 
-		fmt.Println("About to run line #373: r.Lt(true, r.Expr(nil))")
+		suite.T().Log("About to run line #373: r.Lt(true, r.Expr(nil))")
 
 		runAndAssert(suite.Suite, expected_, r.Lt(true, r.Expr(nil)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #373")
+		suite.T().Log("Finished running line #373")
 	}
 
 	{
@@ -1243,13 +1243,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(null) > [] */
 
-		fmt.Println("About to run line #378: r.Expr(nil).Gt([]interface{}{})")
+		suite.T().Log("About to run line #378: r.Expr(nil).Gt([]interface{}{})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Gt([]interface{}{}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #378")
+		suite.T().Log("Finished running line #378")
 	}
 
 	{
@@ -1258,13 +1258,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(null) < 12 */
 
-		fmt.Println("About to run line #383: r.Expr(nil).Lt(12)")
+		suite.T().Log("About to run line #383: r.Expr(nil).Lt(12)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Lt(12), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #383")
+		suite.T().Log("Finished running line #383")
 	}
 
 	{
@@ -1273,13 +1273,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(null) < -2 */
 
-		fmt.Println("About to run line #388: r.Expr(nil).Lt(-2)")
+		suite.T().Log("About to run line #388: r.Expr(nil).Lt(-2)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(nil).Lt(-2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #388")
+		suite.T().Log("Finished running line #388")
 	}
 
 	{
@@ -1288,13 +1288,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(-12) < {} */
 
-		fmt.Println("About to run line #393: r.Expr(-12).Lt(map[interface{}]interface{}{})")
+		suite.T().Log("About to run line #393: r.Expr(-12).Lt(map[interface{}]interface{}{})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(-12).Lt(map[interface{}]interface{}{}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #393")
+		suite.T().Log("Finished running line #393")
 	}
 
 	{
@@ -1303,13 +1303,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr(100) < {'a':-12} */
 
-		fmt.Println("About to run line #398: r.Expr(100).Lt(map[interface{}]interface{}{'a': -12, })")
+		suite.T().Log("About to run line #398: r.Expr(100).Lt(map[interface{}]interface{}{'a': -12, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(100).Lt(map[interface{}]interface{}{"a": -12, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #398")
+		suite.T().Log("Finished running line #398")
 	}
 
 	{
@@ -1318,13 +1318,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.expr(r.binary(b"\xAE")) < 12 */
 
-		fmt.Println("About to run line #403: r.Expr(r.Binary([]byte{174})).Lt(12)")
+		suite.T().Log("About to run line #403: r.Expr(r.Binary([]byte{174})).Lt(12)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(r.Binary([]byte{174})).Lt(12), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #403")
+		suite.T().Log("Finished running line #403")
 	}
 
 	{
@@ -1333,13 +1333,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.binary(b"0xAE") < 'abc' */
 
-		fmt.Println("About to run line #408: r.Binary([]byte{48,120,65,69}).Lt('abc')")
+		suite.T().Log("About to run line #408: r.Binary([]byte{48,120,65,69}).Lt('abc')")
 
 		runAndAssert(suite.Suite, expected_, r.Binary([]byte{48,120,65,69}).Lt("abc"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #408")
+		suite.T().Log("Finished running line #408")
 	}
 
 	{
@@ -1348,13 +1348,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.binary(b"0xAE") > r.now() */
 
-		fmt.Println("About to run line #413: r.Binary([]byte{48,120,65,69}).Gt(r.Now())")
+		suite.T().Log("About to run line #413: r.Binary([]byte{48,120,65,69}).Gt(r.Now())")
 
 		runAndAssert(suite.Suite, expected_, r.Binary([]byte{48,120,65,69}).Gt(r.Now()), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #413")
+		suite.T().Log("Finished running line #413")
 	}
 
 	{
@@ -1363,13 +1363,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.now() > 12 */
 
-		fmt.Println("About to run line #418: r.Now().Gt(12)")
+		suite.T().Log("About to run line #418: r.Now().Gt(12)")
 
 		runAndAssert(suite.Suite, expected_, r.Now().Gt(12), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #418")
+		suite.T().Log("Finished running line #418")
 	}
 
 	{
@@ -1378,13 +1378,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.now() > 'abc' */
 
-		fmt.Println("About to run line #422: r.Now().Gt('abc')")
+		suite.T().Log("About to run line #422: r.Now().Gt('abc')")
 
 		runAndAssert(suite.Suite, expected_, r.Now().Gt("abc"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #422")
+		suite.T().Log("Finished running line #422")
 	}
 
 	{
@@ -1393,13 +1393,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr("abc") > {'a':-12} */
 
-		fmt.Println("About to run line #426: r.Expr('abc').Gt(map[interface{}]interface{}{'a': -12, })")
+		suite.T().Log("About to run line #426: r.Expr('abc').Gt(map[interface{}]interface{}{'a': -12, })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abc").Gt(map[interface{}]interface{}{"a": -12, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #426")
+		suite.T().Log("Finished running line #426")
 	}
 
 	{
@@ -1408,13 +1408,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr("abc") > {'abc':'abc'} */
 
-		fmt.Println("About to run line #431: r.Expr('abc').Gt(map[interface{}]interface{}{'abc': 'abc', })")
+		suite.T().Log("About to run line #431: r.Expr('abc').Gt(map[interface{}]interface{}{'abc': 'abc', })")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("abc").Gt(map[interface{}]interface{}{"abc": "abc", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #431")
+		suite.T().Log("Finished running line #431")
 	}
 
 	{
@@ -1423,13 +1423,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('zzz') > 128 */
 
-		fmt.Println("About to run line #436: r.Expr('zzz').Gt(128)")
+		suite.T().Log("About to run line #436: r.Expr('zzz').Gt(128)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("zzz").Gt(128), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #436")
+		suite.T().Log("Finished running line #436")
 	}
 
 	{
@@ -1438,13 +1438,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.expr('zzz') > {} */
 
-		fmt.Println("About to run line #441: r.Expr('zzz').Gt(map[interface{}]interface{}{})")
+		suite.T().Log("About to run line #441: r.Expr('zzz').Gt(map[interface{}]interface{}{})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("zzz").Gt(map[interface{}]interface{}{}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #441")
+		suite.T().Log("Finished running line #441")
 	}
 
 	{
@@ -1453,13 +1453,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 'zzz' > r.expr(-152) */
 
-		fmt.Println("About to run line #446: r.Gt('zzz', r.Expr(-152))")
+		suite.T().Log("About to run line #446: r.Gt('zzz', r.Expr(-152))")
 
 		runAndAssert(suite.Suite, expected_, r.Gt("zzz", r.Expr(-152)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #446")
+		suite.T().Log("Finished running line #446")
 	}
 
 	{
@@ -1468,13 +1468,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 'zzz' > r.expr(null) */
 
-		fmt.Println("About to run line #451: r.Gt('zzz', r.Expr(nil))")
+		suite.T().Log("About to run line #451: r.Gt('zzz', r.Expr(nil))")
 
 		runAndAssert(suite.Suite, expected_, r.Gt("zzz", r.Expr(nil)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #451")
+		suite.T().Log("Finished running line #451")
 	}
 
 	{
@@ -1483,18 +1483,18 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* 'zzz' > r.expr([]) */
 
-		fmt.Println("About to run line #456: r.Gt('zzz', r.Expr([]interface{}{}))")
+		suite.T().Log("About to run line #456: r.Gt('zzz', r.Expr([]interface{}{}))")
 
 		runAndAssert(suite.Suite, expected_, r.Gt("zzz", r.Expr([]interface{}{})), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #456")
+		suite.T().Log("Finished running line #456")
 	}
 
 	// math_logic/comparison.yaml line #463
 	// everything2 = r.expr([r.minval,[],r.now(),r.binary(b"\x00"),false,null,-5,{},"a"])
-	fmt.Println("Possibly executing: var everything2 r.Term = r.Expr([]interface{}{r.MinVal, []interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, 'a'})")
+	suite.T().Log("Possibly executing: var everything2 r.Term = r.Expr([]interface{}{r.MinVal, []interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, 'a'})")
 
 	everything2 := r.Expr([]interface{}{r.MinVal, []interface{}{}, r.Now(), r.Binary([]byte{0}), false, nil, -5, map[interface{}]interface{}{}, "a"})
 	_ = everything2 // Prevent any noused variable errors
@@ -1506,13 +1506,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.and_(r.args(everything2.map(r.gt(r.maxval, r.row)))) */
 
-		fmt.Println("About to run line #467: r.And(r.Args(everything2.Map(r.Gt(r.MaxVal, r.Row))))")
+		suite.T().Log("About to run line #467: r.And(r.Args(everything2.Map(r.Gt(r.MaxVal, r.Row))))")
 
 		runAndAssert(suite.Suite, expected_, r.And(r.Args(everything2.Map(r.Gt(r.MaxVal, r.Row)))), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #467")
+		suite.T().Log("Finished running line #467")
 	}
 
 	{
@@ -1521,13 +1521,13 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = false
 		/* r.or_(r.args(everything2.map(r.lt(r.maxval, r.row)))) */
 
-		fmt.Println("About to run line #472: r.Or(r.Args(everything2.Map(r.Lt(r.MaxVal, r.Row))))")
+		suite.T().Log("About to run line #472: r.Or(r.Args(everything2.Map(r.Lt(r.MaxVal, r.Row))))")
 
 		runAndAssert(suite.Suite, expected_, r.Or(r.Args(everything2.Map(r.Lt(r.MaxVal, r.Row)))), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #472")
+		suite.T().Log("Finished running line #472")
 	}
 
 	{
@@ -1536,12 +1536,12 @@ func (suite *MathLogicComparisonSuite) TestCases() {
 		var expected_ bool = true
 		/* r.eq(r.maxval, r.maxval) */
 
-		fmt.Println("About to run line #476: r.Eq(r.MaxVal, r.MaxVal)")
+		suite.T().Log("About to run line #476: r.Eq(r.MaxVal, r.MaxVal)")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(r.MaxVal, r.MaxVal), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #476")
+		suite.T().Log("Finished running line #476")
 	}
 }

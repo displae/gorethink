@@ -25,7 +25,7 @@ type TransformFoldSuite struct {
 }
 
 func (suite *TransformFoldSuite) SetupTest() {
-	fmt.Println("Setting up TransformFoldSuite")
+	suite.T().Log("Setting up TransformFoldSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -49,7 +49,7 @@ func (suite *TransformFoldSuite) SetupTest() {
 }
 
 func (suite *TransformFoldSuite) TearDownSuite() {
-	fmt.Println("Tearing down TransformFoldSuite")
+	suite.T().Log("Tearing down TransformFoldSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -61,7 +61,7 @@ func (suite *TransformFoldSuite) TearDownSuite() {
 }
 
 func (suite *TransformFoldSuite) TestCases() {
-	fmt.Println("Running TransformFoldSuite: Tests for the fold term")
+	suite.T().Log("Running TransformFoldSuite: Tests for the fold term")
 
 	tbl := r.DB("test").Table("tbl")
 	_ = tbl // Prevent any noused variable errors
@@ -73,13 +73,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"deleted": 0, "replaced": 0, "unchanged": 0, "errors": 0, "skipped": 0, "inserted": 100, }
 		/* tbl.insert(r.range(100).map(lambda i: {'id':i, 'a':i%4}).coerce_to("array")) */
 
-		fmt.Println("About to run line #6: tbl.Insert(r.Range(100).Map(func(i r.Term) interface{} { return map[interface{}]interface{}{'id': i, 'a': r.Mod(i, 4), }}).CoerceTo('array'))")
+		suite.T().Log("About to run line #6: tbl.Insert(r.Range(100).Map(func(i r.Term) interface{} { return map[interface{}]interface{}{'id': i, 'a': r.Mod(i, 4), }}).CoerceTo('array'))")
 
 		runAndAssert(suite.Suite, expected_, tbl.Insert(r.Range(100).Map(func(i r.Term) interface{} { return map[interface{}]interface{}{"id": i, "a": r.Mod(i, 4), }}).CoerceTo("array")), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #6")
+		suite.T().Log("Finished running line #6")
 	}
 
 	{
@@ -88,13 +88,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ int = 10
 		/* r.range(0, 10).fold(0, lambda acc, row: acc.add(1)) */
 
-		fmt.Println("About to run line #19: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)})")
+		suite.T().Log("About to run line #19: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)})")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #19")
+		suite.T().Log("Finished running line #19")
 	}
 
 	{
@@ -103,13 +103,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ int = 20
 		/* r.range(0, 10).fold(0, lambda acc, row: acc.add(1), final_emit=lambda acc: acc.mul(2)) */
 
-		fmt.Println("About to run line #23: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{FinalEmit: func(acc r.Term) interface{} { return acc.Mul(2)}, })")
+		suite.T().Log("About to run line #23: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{FinalEmit: func(acc r.Term) interface{} { return acc.Mul(2)}, })")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{FinalEmit: func(acc r.Term) interface{} { return acc.Mul(2)}, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #23")
+		suite.T().Log("Finished running line #23")
 	}
 
 	{
@@ -118,13 +118,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}
 		/* r.range(0, 10).fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: [row]).coerce_to("array") */
 
-		fmt.Println("About to run line #27: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{row}}, }).CoerceTo('array')")
+		suite.T().Log("About to run line #27: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{row}}, }).CoerceTo('array')")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{row}}, }).CoerceTo("array"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #27")
+		suite.T().Log("Finished running line #27")
 	}
 
 	{
@@ -133,13 +133,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{2, 5, 8, 10}
 		/* r.range(0, 10).fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: r.branch(acc.mod(3).eq(0),[row],[]),final_emit=lambda acc: [acc]).coerce_to("array") */
 
-		fmt.Println("About to run line #31: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(acc.Mod(3).Eq(0), []interface{}{row}, []interface{}{})}, FinalEmit: func(acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo('array')")
+		suite.T().Log("About to run line #31: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(acc.Mod(3).Eq(0), []interface{}{row}, []interface{}{})}, FinalEmit: func(acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo('array')")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(acc.Mod(3).Eq(0), []interface{}{row}, []interface{}{})}, FinalEmit: func(acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo("array"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #31")
+		suite.T().Log("Finished running line #31")
 	}
 
 	{
@@ -148,13 +148,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{1, 2, 3, 5, 8, 13, 21, 34, 55, 89}
 		/* r.range(0, 10).fold([1, 1], lambda acc, row: [acc[1], acc[0].add(acc[1])], emit=lambda old,row,acc: [acc[0]]).coerce_to("array") */
 
-		fmt.Println("About to run line #35: r.Range(0, 10).Fold([]interface{}{1, 1}, func(acc r.Term, row r.Term) interface{} { return []interface{}{acc.AtIndex(1), acc.AtIndex(0).Add(acc.AtIndex(1))}}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc.AtIndex(0)}}, }).CoerceTo('array')")
+		suite.T().Log("About to run line #35: r.Range(0, 10).Fold([]interface{}{1, 1}, func(acc r.Term, row r.Term) interface{} { return []interface{}{acc.AtIndex(1), acc.AtIndex(0).Add(acc.AtIndex(1))}}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc.AtIndex(0)}}, }).CoerceTo('array')")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold([]interface{}{1, 1}, func(acc r.Term, row r.Term) interface{} { return []interface{}{acc.AtIndex(1), acc.AtIndex(0).Add(acc.AtIndex(1))}}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc.AtIndex(0)}}, }).CoerceTo("array"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #35")
+		suite.T().Log("Finished running line #35")
 	}
 
 	{
@@ -163,13 +163,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ string = "STREAM"
 		/* r.range(0, 10).fold(0, lambda acc, row: acc, emit=lambda old,row,acc: acc).type_of() */
 
-		fmt.Println("About to run line #37: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return acc}, }).TypeOf()")
+		suite.T().Log("About to run line #37: r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return acc}, }).TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 10).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return acc}, }).TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #37")
+		suite.T().Log("Finished running line #37")
 	}
 
 	{
@@ -178,13 +178,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"a": 0, "id": 20, }, map[interface{}]interface{}{"a": 3, "id": 15, }, map[interface{}]interface{}{"a": 2, "id": 46, }, map[interface{}]interface{}{"a": 2, "id": 78, }, map[interface{}]interface{}{"a": 2, "id": 90, }}
 		/* tbl.filter("id").fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: r.branch(old.mod(20).eq(0),[row],[])).coerce_to("array") */
 
-		fmt.Println("About to run line #39: tbl.Filter('id').Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(old.Mod(20).Eq(0), []interface{}{row}, []interface{}{})}, }).CoerceTo('array')")
+		suite.T().Log("About to run line #39: tbl.Filter('id').Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(old.Mod(20).Eq(0), []interface{}{row}, []interface{}{})}, }).CoerceTo('array')")
 
 		runAndAssert(suite.Suite, expected_, tbl.Filter("id").Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return r.Branch(old.Mod(20).Eq(0), []interface{}{row}, []interface{}{})}, }).CoerceTo("array"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #39")
+		suite.T().Log("Finished running line #39")
 	}
 
 	{
@@ -193,13 +193,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}
 		/* r.range().fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: [acc]).limit(10) */
 
-		fmt.Println("About to run line #42: r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Limit(10)")
+		suite.T().Log("About to run line #42: r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Limit(10)")
 
 		runAndAssert(suite.Suite, expected_, r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Limit(10), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #42")
+		suite.T().Log("Finished running line #42")
 	}
 
 	{
@@ -208,13 +208,13 @@ func (suite *TransformFoldSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Cannot use an infinite stream with an aggregation function (`reduce`, `count`, etc.) or coerce it to an array.")
 		/* r.range().fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: [acc]).map(lambda doc: 1).reduce(lambda l, r: l+r) */
 
-		fmt.Println("About to run line #45: r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Map(func(doc r.Term) interface{} { return 1}).Reduce(func(l r.Term, r r.Term) interface{} { return r.Add(l, r)})")
+		suite.T().Log("About to run line #45: r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Map(func(doc r.Term) interface{} { return 1}).Reduce(func(l r.Term, r r.Term) interface{} { return r.Add(l, r)})")
 
 		runAndAssert(suite.Suite, expected_, r.Range().Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).Map(func(doc r.Term) interface{} { return 1}).Reduce(func(l r.Term, r r.Term) interface{} { return r.Add(l, r)}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #45")
+		suite.T().Log("Finished running line #45")
 	}
 
 	{
@@ -230,12 +230,12 @@ func (suite *TransformFoldSuite) TestCases() {
 }())
 		/* r.range(0, 1000).fold(0, lambda acc, row: acc.add(1), emit=lambda old,row,acc: [acc]).coerce_to("array") */
 
-		fmt.Println("About to run line #48: r.Range(0, 1000).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo('array')")
+		suite.T().Log("About to run line #48: r.Range(0, 1000).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo('array')")
 
 		runAndAssert(suite.Suite, expected_, r.Range(0, 1000).Fold(0, func(acc r.Term, row r.Term) interface{} { return acc.Add(1)}, r.FoldOpts{Emit: func(old r.Term, row r.Term, acc r.Term) interface{} { return []interface{}{acc}}, }).CoerceTo("array"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #48")
+		suite.T().Log("Finished running line #48")
 	}
 }

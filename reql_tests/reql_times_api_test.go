@@ -25,7 +25,7 @@ type TimesApiSuite struct {
 }
 
 func (suite *TimesApiSuite) SetupTest() {
-	fmt.Println("Setting up TimesApiSuite")
+	suite.T().Log("Setting up TimesApiSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *TimesApiSuite) SetupTest() {
 }
 
 func (suite *TimesApiSuite) TearDownSuite() {
-	fmt.Println("Tearing down TimesApiSuite")
+	suite.T().Log("Tearing down TimesApiSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,13 +55,13 @@ func (suite *TimesApiSuite) TearDownSuite() {
 }
 
 func (suite *TimesApiSuite) TestCases() {
-	fmt.Println("Running TimesApiSuite: date/time api (#977)")
+	suite.T().Log("Running TimesApiSuite: date/time api (#977)")
 
 
 
 	// times/api.yaml line #6
 	// rt1 = 1375147296.6812
-	fmt.Println("Possibly executing: var rt1 float64 = 1375147296.6812")
+	suite.T().Log("Possibly executing: var rt1 float64 = 1375147296.6812")
 
 	rt1 := 1375147296.6812
 	_ = rt1 // Prevent any noused variable errors
@@ -69,7 +69,7 @@ func (suite *TimesApiSuite) TestCases() {
 
 	// times/api.yaml line #7
 	// t1 = r.epoch_time(rt1)
-	fmt.Println("Possibly executing: var t1 r.Term = r.EpochTime(rt1)")
+	suite.T().Log("Possibly executing: var t1 r.Term = r.EpochTime(rt1)")
 
 	t1 := r.EpochTime(rt1)
 	_ = t1 // Prevent any noused variable errors
@@ -77,7 +77,7 @@ func (suite *TimesApiSuite) TestCases() {
 
 	// times/api.yaml line #8
 	// t2 = r.epoch_time(rt1 + 1000)
-	fmt.Println("Possibly executing: var t2 r.Term = r.EpochTime(r.Add(rt1, 1000))")
+	suite.T().Log("Possibly executing: var t2 r.Term = r.EpochTime(r.Add(rt1, 1000))")
 
 	t2 := r.EpochTime(r.Add(rt1, 1000))
 	_ = t2 // Prevent any noused variable errors
@@ -89,13 +89,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ float64 = 1375148296.681
 		/* (t1 + 1000).to_epoch_time() */
 
-		fmt.Println("About to run line #11: r.Add(t1, 1000).ToEpochTime()")
+		suite.T().Log("About to run line #11: r.Add(t1, 1000).ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Add(t1, 1000).ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #11")
+		suite.T().Log("Finished running line #11")
 	}
 
 	{
@@ -104,13 +104,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ float64 = 1375146296.681
 		/* (t1 - 1000).to_epoch_time() */
 
-		fmt.Println("About to run line #14: r.Sub(t1, 1000).ToEpochTime()")
+		suite.T().Log("About to run line #14: r.Sub(t1, 1000).ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Sub(t1, 1000).ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #14")
+		suite.T().Log("Finished running line #14")
 	}
 
 	{
@@ -119,13 +119,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 1000
 		/* (t1 - (t1 - 1000)) */
 
-		fmt.Println("About to run line #17: r.Sub(t1, r.Sub(t1, 1000))")
+		suite.T().Log("About to run line #17: r.Sub(t1, r.Sub(t1, 1000))")
 
 		runAndAssert(suite.Suite, expected_, r.Sub(t1, r.Sub(t1, 1000)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #17")
+		suite.T().Log("Finished running line #17")
 	}
 
 	{
@@ -134,13 +134,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 < t1) */
 
-		fmt.Println("About to run line #22: r.Lt(t1, t1)")
+		suite.T().Log("About to run line #22: r.Lt(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Lt(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #22")
+		suite.T().Log("Finished running line #22")
 	}
 
 	{
@@ -149,13 +149,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 <= t1) */
 
-		fmt.Println("About to run line #25: r.Le(t1, t1)")
+		suite.T().Log("About to run line #25: r.Le(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Le(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #25")
+		suite.T().Log("Finished running line #25")
 	}
 
 	{
@@ -164,13 +164,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 == t1) */
 
-		fmt.Println("About to run line #29: r.Eq(t1, t1)")
+		suite.T().Log("About to run line #29: r.Eq(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #29")
+		suite.T().Log("Finished running line #29")
 	}
 
 	{
@@ -179,13 +179,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 != t1) */
 
-		fmt.Println("About to run line #32: r.Ne(t1, t1)")
+		suite.T().Log("About to run line #32: r.Ne(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Ne(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #32")
+		suite.T().Log("Finished running line #32")
 	}
 
 	{
@@ -194,13 +194,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 >= t1) */
 
-		fmt.Println("About to run line #34: r.Ge(t1, t1)")
+		suite.T().Log("About to run line #34: r.Ge(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Ge(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #34")
+		suite.T().Log("Finished running line #34")
 	}
 
 	{
@@ -209,13 +209,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 > t1) */
 
-		fmt.Println("About to run line #37: r.Gt(t1, t1)")
+		suite.T().Log("About to run line #37: r.Gt(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, r.Gt(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #37")
+		suite.T().Log("Finished running line #37")
 	}
 
 	{
@@ -224,13 +224,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 < t2) */
 
-		fmt.Println("About to run line #40: r.Lt(t1, t2)")
+		suite.T().Log("About to run line #40: r.Lt(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Lt(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #40")
+		suite.T().Log("Finished running line #40")
 	}
 
 	{
@@ -239,13 +239,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 <= t2) */
 
-		fmt.Println("About to run line #43: r.Le(t1, t2)")
+		suite.T().Log("About to run line #43: r.Le(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Le(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #43")
+		suite.T().Log("Finished running line #43")
 	}
 
 	{
@@ -254,13 +254,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 == t2) */
 
-		fmt.Println("About to run line #47: r.Eq(t1, t2)")
+		suite.T().Log("About to run line #47: r.Eq(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Eq(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #47")
+		suite.T().Log("Finished running line #47")
 	}
 
 	{
@@ -269,13 +269,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* (t1 != t2) */
 
-		fmt.Println("About to run line #50: r.Ne(t1, t2)")
+		suite.T().Log("About to run line #50: r.Ne(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Ne(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #50")
+		suite.T().Log("Finished running line #50")
 	}
 
 	{
@@ -284,13 +284,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 >= t2) */
 
-		fmt.Println("About to run line #52: r.Ge(t1, t2)")
+		suite.T().Log("About to run line #52: r.Ge(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Ge(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #52")
+		suite.T().Log("Finished running line #52")
 	}
 
 	{
@@ -299,13 +299,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* (t1 > t2) */
 
-		fmt.Println("About to run line #55: r.Gt(t1, t2)")
+		suite.T().Log("About to run line #55: r.Gt(t1, t2)")
 
 		runAndAssert(suite.Suite, expected_, r.Gt(t1, t2), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #55")
+		suite.T().Log("Finished running line #55")
 	}
 
 	{
@@ -314,13 +314,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* t1.during(t1, t1 + 1000) */
 
-		fmt.Println("About to run line #60: t1.During(t1, r.Add(t1, 1000))")
+		suite.T().Log("About to run line #60: t1.During(t1, r.Add(t1, 1000))")
 
 		runAndAssert(suite.Suite, expected_, t1.During(t1, r.Add(t1, 1000)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #60")
+		suite.T().Log("Finished running line #60")
 	}
 
 	{
@@ -329,13 +329,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* t1.during(t1, t1 + 1000, left_bound='open') */
 
-		fmt.Println("About to run line #64: t1.During(t1, r.Add(t1, 1000), r.DuringOpts{LeftBound: 'open', })")
+		suite.T().Log("About to run line #64: t1.During(t1, r.Add(t1, 1000), r.DuringOpts{LeftBound: 'open', })")
 
 		runAndAssert(suite.Suite, expected_, t1.During(t1, r.Add(t1, 1000), r.DuringOpts{LeftBound: "open", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #64")
+		suite.T().Log("Finished running line #64")
 	}
 
 	{
@@ -344,13 +344,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = false
 		/* t1.during(t1, t1) */
 
-		fmt.Println("About to run line #67: t1.During(t1, t1)")
+		suite.T().Log("About to run line #67: t1.During(t1, t1)")
 
 		runAndAssert(suite.Suite, expected_, t1.During(t1, t1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #67")
+		suite.T().Log("Finished running line #67")
 	}
 
 	{
@@ -359,13 +359,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ bool = true
 		/* t1.during(t1, t1, right_bound='closed') */
 
-		fmt.Println("About to run line #70: t1.During(t1, t1, r.DuringOpts{RightBound: 'closed', })")
+		suite.T().Log("About to run line #70: t1.During(t1, t1, r.DuringOpts{RightBound: 'closed', })")
 
 		runAndAssert(suite.Suite, expected_, t1.During(t1, t1, r.DuringOpts{RightBound: "closed", }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #70")
+		suite.T().Log("Finished running line #70")
 	}
 
 	{
@@ -374,13 +374,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 1375142400
 		/* t1.date().to_epoch_time() */
 
-		fmt.Println("About to run line #77: t1.Date().ToEpochTime()")
+		suite.T().Log("About to run line #77: t1.Date().ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, t1.Date().ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #77")
+		suite.T().Log("Finished running line #77")
 	}
 
 	{
@@ -389,13 +389,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ float64 = 4896.681
 		/* t1.time_of_day() */
 
-		fmt.Println("About to run line #79: t1.TimeOfDay()")
+		suite.T().Log("About to run line #79: t1.TimeOfDay()")
 
 		runAndAssert(suite.Suite, expected_, t1.TimeOfDay(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #79")
+		suite.T().Log("Finished running line #79")
 	}
 
 	{
@@ -404,13 +404,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 2013
 		/* t1.year() */
 
-		fmt.Println("About to run line #81: t1.Year()")
+		suite.T().Log("About to run line #81: t1.Year()")
 
 		runAndAssert(suite.Suite, expected_, t1.Year(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #81")
+		suite.T().Log("Finished running line #81")
 	}
 
 	{
@@ -419,13 +419,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 7
 		/* t1.month() */
 
-		fmt.Println("About to run line #83: t1.Month()")
+		suite.T().Log("About to run line #83: t1.Month()")
 
 		runAndAssert(suite.Suite, expected_, t1.Month(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #83")
+		suite.T().Log("Finished running line #83")
 	}
 
 	{
@@ -434,13 +434,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 30
 		/* t1.day() */
 
-		fmt.Println("About to run line #85: t1.Day()")
+		suite.T().Log("About to run line #85: t1.Day()")
 
 		runAndAssert(suite.Suite, expected_, t1.Day(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #85")
+		suite.T().Log("Finished running line #85")
 	}
 
 	{
@@ -449,13 +449,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 2
 		/* t1.day_of_week() */
 
-		fmt.Println("About to run line #87: t1.DayOfWeek()")
+		suite.T().Log("About to run line #87: t1.DayOfWeek()")
 
 		runAndAssert(suite.Suite, expected_, t1.DayOfWeek(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #87")
+		suite.T().Log("Finished running line #87")
 	}
 
 	{
@@ -464,13 +464,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 211
 		/* t1.day_of_year() */
 
-		fmt.Println("About to run line #89: t1.DayOfYear()")
+		suite.T().Log("About to run line #89: t1.DayOfYear()")
 
 		runAndAssert(suite.Suite, expected_, t1.DayOfYear(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #89")
+		suite.T().Log("Finished running line #89")
 	}
 
 	{
@@ -479,13 +479,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 1
 		/* t1.hours() */
 
-		fmt.Println("About to run line #91: t1.Hours()")
+		suite.T().Log("About to run line #91: t1.Hours()")
 
 		runAndAssert(suite.Suite, expected_, t1.Hours(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #91")
+		suite.T().Log("Finished running line #91")
 	}
 
 	{
@@ -494,13 +494,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 21
 		/* t1.minutes() */
 
-		fmt.Println("About to run line #93: t1.Minutes()")
+		suite.T().Log("About to run line #93: t1.Minutes()")
 
 		runAndAssert(suite.Suite, expected_, t1.Minutes(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #93")
+		suite.T().Log("Finished running line #93")
 	}
 
 	{
@@ -509,13 +509,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ float64 = 36.681
 		/* t1.seconds() */
 
-		fmt.Println("About to run line #95: t1.Seconds()")
+		suite.T().Log("About to run line #95: t1.Seconds()")
 
 		runAndAssert(suite.Suite, expected_, t1.Seconds(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #95")
+		suite.T().Log("Finished running line #95")
 	}
 
 	{
@@ -524,13 +524,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ float64 = 1375165800.1
 		/* r.time(2013, r.july, 29, 23, 30, 0.1, "-07:00").to_epoch_time() */
 
-		fmt.Println("About to run line #99: r.Time(2013, r.July, 29, 23, 30, 0.1, '-07:00').ToEpochTime()")
+		suite.T().Log("About to run line #99: r.Time(2013, r.July, 29, 23, 30, 0.1, '-07:00').ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23, 30, 0.1, "-07:00").ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #99")
+		suite.T().Log("Finished running line #99")
 	}
 
 	{
@@ -539,13 +539,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ string = "-07:00"
 		/* r.time(2013, r.july, 29, 23, 30, 0.1, "-07:00").timezone() */
 
-		fmt.Println("About to run line #101: r.Time(2013, r.July, 29, 23, 30, 0.1, '-07:00').Timezone()")
+		suite.T().Log("About to run line #101: r.Time(2013, r.July, 29, 23, 30, 0.1, '-07:00').Timezone()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23, 30, 0.1, "-07:00").Timezone(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #101")
+		suite.T().Log("Finished running line #101")
 	}
 
 	{
@@ -554,13 +554,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Got 6 arguments to TIME (expected 4 or 7).")
 		/* r.time(2013, r.july, 29, 23, 30, 0.1).to_epoch_time() */
 
-		fmt.Println("About to run line #103: r.Time(2013, r.July, 29, 23, 30, 0.1).ToEpochTime()")
+		suite.T().Log("About to run line #103: r.Time(2013, r.July, 29, 23, 30, 0.1).ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23, 30, 0.1).ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #103")
+		suite.T().Log("Finished running line #103")
 	}
 
 	{
@@ -569,13 +569,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Got 6 arguments to TIME (expected 4 or 7).")
 		/* r.time(2013, r.july, 29, 23, 30, 0.1).timezone() */
 
-		fmt.Println("About to run line #105: r.Time(2013, r.July, 29, 23, 30, 0.1).Timezone()")
+		suite.T().Log("About to run line #105: r.Time(2013, r.July, 29, 23, 30, 0.1).Timezone()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23, 30, 0.1).Timezone(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #105")
+		suite.T().Log("Finished running line #105")
 	}
 
 	{
@@ -584,13 +584,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Got 5 arguments to TIME (expected 4 or 7).")
 		/* r.time(2013, r.july, 29, 23, 30).to_epoch_time() */
 
-		fmt.Println("About to run line #107: r.Time(2013, r.July, 29, 23, 30).ToEpochTime()")
+		suite.T().Log("About to run line #107: r.Time(2013, r.July, 29, 23, 30).ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23, 30).ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #107")
+		suite.T().Log("Finished running line #107")
 	}
 
 	{
@@ -599,13 +599,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type STRING but found NUMBER.")
 		/* r.time(2013, r.july, 29, 23).to_epoch_time() */
 
-		fmt.Println("About to run line #109: r.Time(2013, r.July, 29, 23).ToEpochTime()")
+		suite.T().Log("About to run line #109: r.Time(2013, r.July, 29, 23).ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, 23).ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #109")
+		suite.T().Log("Finished running line #109")
 	}
 
 	{
@@ -614,13 +614,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 1375081200
 		/* r.time(2013, r.july, 29, "-07:00").to_epoch_time() */
 
-		fmt.Println("About to run line #111: r.Time(2013, r.July, 29, '-07:00').ToEpochTime()")
+		suite.T().Log("About to run line #111: r.Time(2013, r.July, 29, '-07:00').ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, "-07:00").ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #111")
+		suite.T().Log("Finished running line #111")
 	}
 
 	{
@@ -629,13 +629,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ string = "-07:00"
 		/* r.time(2013, r.july, 29, "-07:00").timezone() */
 
-		fmt.Println("About to run line #113: r.Time(2013, r.July, 29, '-07:00').Timezone()")
+		suite.T().Log("About to run line #113: r.Time(2013, r.July, 29, '-07:00').Timezone()")
 
 		runAndAssert(suite.Suite, expected_, r.Time(2013, r.July, 29, "-07:00").Timezone(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #113")
+		suite.T().Log("Finished running line #113")
 	}
 
 	{
@@ -644,13 +644,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 1375242965
 		/* r.iso8601("2013-07-30T20:56:05-07:00").to_epoch_time() */
 
-		fmt.Println("About to run line #119: r.ISO8601('2013-07-30T20:56:05-07:00').ToEpochTime()")
+		suite.T().Log("About to run line #119: r.ISO8601('2013-07-30T20:56:05-07:00').ToEpochTime()")
 
 		runAndAssert(suite.Suite, expected_, r.ISO8601("2013-07-30T20:56:05-07:00").ToEpochTime(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #119")
+		suite.T().Log("Finished running line #119")
 	}
 
 	{
@@ -659,13 +659,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ string = "2013-07-30T20:56:05-07:00"
 		/* r.epoch_time(1375242965).in_timezone("-07:00").to_iso8601() */
 
-		fmt.Println("About to run line #122: r.EpochTime(1375242965).InTimezone('-07:00').ToISO8601()")
+		suite.T().Log("About to run line #122: r.EpochTime(1375242965).InTimezone('-07:00').ToISO8601()")
 
 		runAndAssert(suite.Suite, expected_, r.EpochTime(1375242965).InTimezone("-07:00").ToISO8601(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #122")
+		suite.T().Log("Finished running line #122")
 	}
 
 	{
@@ -674,13 +674,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ string = "PTYPE<TIME>"
 		/* r.now().type_of() */
 
-		fmt.Println("About to run line #125: r.Now().TypeOf()")
+		suite.T().Log("About to run line #125: r.Now().TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, r.Now().TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #125")
+		suite.T().Log("Finished running line #125")
 	}
 
 	{
@@ -689,13 +689,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ int = 0
 		/* (r.now() - r.now()) */
 
-		fmt.Println("About to run line #127: r.Now().Sub(r.Now())")
+		suite.T().Log("About to run line #127: r.Now().Sub(r.Now())")
 
 		runAndAssert(suite.Suite, expected_, r.Now().Sub(r.Now()), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #127")
+		suite.T().Log("Finished running line #127")
 	}
 
 	{
@@ -704,13 +704,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "ISO 8601 string has no time zone, and no default time zone was provided.")
 		/* r.iso8601("2013-07-30T20:56:05").to_iso8601() */
 
-		fmt.Println("About to run line #132: r.ISO8601('2013-07-30T20:56:05').ToISO8601()")
+		suite.T().Log("About to run line #132: r.ISO8601('2013-07-30T20:56:05').ToISO8601()")
 
 		runAndAssert(suite.Suite, expected_, r.ISO8601("2013-07-30T20:56:05").ToISO8601(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #132")
+		suite.T().Log("Finished running line #132")
 	}
 
 	{
@@ -719,13 +719,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ string = "2013-07-30T20:56:05-07:00"
 		/* r.iso8601("2013-07-30T20:56:05", default_timezone='-07').to_iso8601() */
 
-		fmt.Println("About to run line #136: r.ISO8601('2013-07-30T20:56:05', r.ISO8601Opts{DefaultTimezone: '-07', }).ToISO8601()")
+		suite.T().Log("About to run line #136: r.ISO8601('2013-07-30T20:56:05', r.ISO8601Opts{DefaultTimezone: '-07', }).ToISO8601()")
 
 		runAndAssert(suite.Suite, expected_, r.ISO8601("2013-07-30T20:56:05", r.ISO8601Opts{DefaultTimezone: "-07", }).ToISO8601(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #136")
+		suite.T().Log("Finished running line #136")
 	}
 
 	{
@@ -734,13 +734,13 @@ func (suite *TimesApiSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{1, 2, 3, 4, 5, 6, 7}
 		/* r.expr([r.monday, r.tuesday, r.wednesday, r.thursday, r.friday, r.saturday, r.sunday]) */
 
-		fmt.Println("About to run line #140: r.Expr([]interface{}{r.Monday, r.Tuesday, r.Wednesday, r.Thursday, r.Friday, r.Saturday, r.Sunday})")
+		suite.T().Log("About to run line #140: r.Expr([]interface{}{r.Monday, r.Tuesday, r.Wednesday, r.Thursday, r.Friday, r.Saturday, r.Sunday})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{r.Monday, r.Tuesday, r.Wednesday, r.Thursday, r.Friday, r.Saturday, r.Sunday}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #140")
+		suite.T().Log("Finished running line #140")
 	}
 
 	{
@@ -750,12 +750,12 @@ func (suite *TimesApiSuite) TestCases() {
 		/* r.expr([r.january, r.february, r.march, r.april, r.may, r.june,
 r.july, r.august, r.september, r.october, r.november, r.december]) */
 
-		fmt.Println("About to run line #142: r.Expr([]interface{}{r.January, r.February, r.March, r.April, r.May, r.June, r.July, r.August, r.September, r.October, r.November, r.December})")
+		suite.T().Log("About to run line #142: r.Expr([]interface{}{r.January, r.February, r.March, r.April, r.May, r.June, r.July, r.August, r.September, r.October, r.November, r.December})")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{r.January, r.February, r.March, r.April, r.May, r.June, r.July, r.August, r.September, r.October, r.November, r.December}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #142")
+		suite.T().Log("Finished running line #142")
 	}
 }

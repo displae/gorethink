@@ -25,7 +25,7 @@ type MathLogicModSuite struct {
 }
 
 func (suite *MathLogicModSuite) SetupTest() {
-	fmt.Println("Setting up MathLogicModSuite")
+	suite.T().Log("Setting up MathLogicModSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MathLogicModSuite) SetupTest() {
 }
 
 func (suite *MathLogicModSuite) TearDownSuite() {
-	fmt.Println("Tearing down MathLogicModSuite")
+	suite.T().Log("Tearing down MathLogicModSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MathLogicModSuite) TearDownSuite() {
 }
 
 func (suite *MathLogicModSuite) TestCases() {
-	fmt.Println("Running MathLogicModSuite: Tests for the basic usage of the mod operation")
+	suite.T().Log("Running MathLogicModSuite: Tests for the basic usage of the mod operation")
 
 
 
@@ -65,13 +65,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ int = 1
 		/* r.expr(10) % 3 */
 
-		fmt.Println("About to run line #6: r.Expr(10).Mod(3)")
+		suite.T().Log("About to run line #6: r.Expr(10).Mod(3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(10).Mod(3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #6")
+		suite.T().Log("Finished running line #6")
 	}
 
 	{
@@ -80,13 +80,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ int = 1
 		/* 10 % r.expr(3) */
 
-		fmt.Println("About to run line #7: r.Mod(10, r.Expr(3))")
+		suite.T().Log("About to run line #7: r.Mod(10, r.Expr(3))")
 
 		runAndAssert(suite.Suite, expected_, r.Mod(10, r.Expr(3)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #7")
+		suite.T().Log("Finished running line #7")
 	}
 
 	{
@@ -95,13 +95,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ int = 1
 		/* r.expr(10).mod(3) */
 
-		fmt.Println("About to run line #8: r.Expr(10).Mod(3)")
+		suite.T().Log("About to run line #8: r.Expr(10).Mod(3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(10).Mod(3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #8")
+		suite.T().Log("Finished running line #8")
 	}
 
 	{
@@ -110,13 +110,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ int = -1
 		/* r.expr(-10) % -3 */
 
-		fmt.Println("About to run line #16: r.Expr(-10).Mod(-3)")
+		suite.T().Log("About to run line #16: r.Expr(-10).Mod(-3)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(-10).Mod(-3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #16")
+		suite.T().Log("Finished running line #16")
 	}
 
 	{
@@ -125,13 +125,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type NUMBER but found STRING.")
 		/* r.expr(4) % 'a' */
 
-		fmt.Println("About to run line #22: r.Expr(4).Mod('a')")
+		suite.T().Log("About to run line #22: r.Expr(4).Mod('a')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr(4).Mod("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #22")
+		suite.T().Log("Finished running line #22")
 	}
 
 	{
@@ -140,13 +140,13 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type NUMBER but found STRING.")
 		/* r.expr('a') % 1 */
 
-		fmt.Println("About to run line #27: r.Expr('a').Mod(1)")
+		suite.T().Log("About to run line #27: r.Expr('a').Mod(1)")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Mod(1), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #27")
+		suite.T().Log("Finished running line #27")
 	}
 
 	{
@@ -155,12 +155,12 @@ func (suite *MathLogicModSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected type NUMBER but found STRING.")
 		/* r.expr('a') % 'b' */
 
-		fmt.Println("About to run line #32: r.Expr('a').Mod('b')")
+		suite.T().Log("About to run line #32: r.Expr('a').Mod('b')")
 
 		runAndAssert(suite.Suite, expected_, r.Expr("a").Mod("b"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #32")
+		suite.T().Log("Finished running line #32")
 	}
 }

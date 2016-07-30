@@ -25,7 +25,7 @@ type GeoConstructorsSuite struct {
 }
 
 func (suite *GeoConstructorsSuite) SetupTest() {
-	fmt.Println("Setting up GeoConstructorsSuite")
+	suite.T().Log("Setting up GeoConstructorsSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *GeoConstructorsSuite) SetupTest() {
 }
 
 func (suite *GeoConstructorsSuite) TearDownSuite() {
-	fmt.Println("Tearing down GeoConstructorsSuite")
+	suite.T().Log("Tearing down GeoConstructorsSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *GeoConstructorsSuite) TearDownSuite() {
 }
 
 func (suite *GeoConstructorsSuite) TestCases() {
-	fmt.Println("Running GeoConstructorsSuite: Test geo constructors")
+	suite.T().Log("Running GeoConstructorsSuite: Test geo constructors")
 
 
 
@@ -65,13 +65,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{0, 0}, "type": "Point", }
 		/* r.point(0, 0) */
 
-		fmt.Println("About to run line #4: r.Point(0, 0)")
+		suite.T().Log("About to run line #4: r.Point(0, 0)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(0, 0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #4")
+		suite.T().Log("Finished running line #4")
 	}
 
 	{
@@ -80,13 +80,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{0, -90}, "type": "Point", }
 		/* r.point(0, -90) */
 
-		fmt.Println("About to run line #6: r.Point(0, -90)")
+		suite.T().Log("About to run line #6: r.Point(0, -90)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(0, -90), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #6")
+		suite.T().Log("Finished running line #6")
 	}
 
 	{
@@ -95,13 +95,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{0, 90}, "type": "Point", }
 		/* r.point(0, 90) */
 
-		fmt.Println("About to run line #8: r.Point(0, 90)")
+		suite.T().Log("About to run line #8: r.Point(0, 90)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(0, 90), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #8")
+		suite.T().Log("Finished running line #8")
 	}
 
 	{
@@ -110,13 +110,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{-180, 0}, "type": "Point", }
 		/* r.point(-180, 0) */
 
-		fmt.Println("About to run line #10: r.Point(-180, 0)")
+		suite.T().Log("About to run line #10: r.Point(-180, 0)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(-180, 0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #10")
+		suite.T().Log("Finished running line #10")
 	}
 
 	{
@@ -125,13 +125,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{180, 0}, "type": "Point", }
 		/* r.point(180, 0) */
 
-		fmt.Println("About to run line #12: r.Point(180, 0)")
+		suite.T().Log("About to run line #12: r.Point(180, 0)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(180, 0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #12")
+		suite.T().Log("Finished running line #12")
 	}
 
 	{
@@ -140,13 +140,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Latitude must be between -90 and 90.  Got -91.")
 		/* r.point(0, -91) */
 
-		fmt.Println("About to run line #14: r.Point(0, -91)")
+		suite.T().Log("About to run line #14: r.Point(0, -91)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(0, -91), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #14")
+		suite.T().Log("Finished running line #14")
 	}
 
 	{
@@ -155,13 +155,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Latitude must be between -90 and 90.  Got 91.")
 		/* r.point(0, 91) */
 
-		fmt.Println("About to run line #16: r.Point(0, 91)")
+		suite.T().Log("About to run line #16: r.Point(0, 91)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(0, 91), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #16")
+		suite.T().Log("Finished running line #16")
 	}
 
 	{
@@ -170,13 +170,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Longitude must be between -180 and 180.  Got -181.")
 		/* r.point(-181, 0) */
 
-		fmt.Println("About to run line #18: r.Point(-181, 0)")
+		suite.T().Log("About to run line #18: r.Point(-181, 0)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(-181, 0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #18")
+		suite.T().Log("Finished running line #18")
 	}
 
 	{
@@ -185,13 +185,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Longitude must be between -180 and 180.  Got 181.")
 		/* r.point(181, 0) */
 
-		fmt.Println("About to run line #20: r.Point(181, 0)")
+		suite.T().Log("About to run line #20: r.Point(181, 0)")
 
 		runAndAssert(suite.Suite, expected_, r.Point(181, 0), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #20")
+		suite.T().Log("Finished running line #20")
 	}
 
 	{
@@ -200,13 +200,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Invalid LineString.  Are there antipodal or duplicate vertices?")
 		/* r.line([0,0], [0,0]) */
 
-		fmt.Println("About to run line #28: r.Line([]interface{}{0, 0}, []interface{}{0, 0})")
+		suite.T().Log("About to run line #28: r.Line([]interface{}{0, 0}, []interface{}{0, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Line([]interface{}{0, 0}, []interface{}{0, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #28")
+		suite.T().Log("Finished running line #28")
 	}
 
 	{
@@ -215,13 +215,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{[]interface{}{0, 0}, []interface{}{0, 1}}, "type": "LineString", }
 		/* r.line([0,0], [0,1]) */
 
-		fmt.Println("About to run line #30: r.Line([]interface{}{0, 0}, []interface{}{0, 1})")
+		suite.T().Log("About to run line #30: r.Line([]interface{}{0, 0}, []interface{}{0, 1})")
 
 		runAndAssert(suite.Suite, expected_, r.Line([]interface{}{0, 0}, []interface{}{0, 1}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #30")
+		suite.T().Log("Finished running line #30")
 	}
 
 	{
@@ -230,13 +230,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected point coordinate pair.  Got 1 element array instead of a 2 element one.")
 		/* r.line([0,0], [1]) */
 
-		fmt.Println("About to run line #32: r.Line([]interface{}{0, 0}, []interface{}{1})")
+		suite.T().Log("About to run line #32: r.Line([]interface{}{0, 0}, []interface{}{1})")
 
 		runAndAssert(suite.Suite, expected_, r.Line([]interface{}{0, 0}, []interface{}{1}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #32")
+		suite.T().Log("Finished running line #32")
 	}
 
 	{
@@ -245,13 +245,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected point coordinate pair.  Got 3 element array instead of a 2 element one.")
 		/* r.line([0,0], [1,0,0]) */
 
-		fmt.Println("About to run line #34: r.Line([]interface{}{0, 0}, []interface{}{1, 0, 0})")
+		suite.T().Log("About to run line #34: r.Line([]interface{}{0, 0}, []interface{}{1, 0, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Line([]interface{}{0, 0}, []interface{}{1, 0, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #34")
+		suite.T().Log("Finished running line #34")
 	}
 
 	{
@@ -260,13 +260,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{[]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 0}}, "type": "LineString", }
 		/* r.line([0,0], [0,1], [0,0]) */
 
-		fmt.Println("About to run line #36: r.Line([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 0})")
+		suite.T().Log("About to run line #36: r.Line([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Line([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #36")
+		suite.T().Log("Finished running line #36")
 	}
 
 	{
@@ -275,13 +275,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{[]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 0}}, "type": "LineString", }
 		/* r.line(r.point(0,0), r.point(0,1), r.point(0,0)) */
 
-		fmt.Println("About to run line #38: r.Line(r.Point(0, 0), r.Point(0, 1), r.Point(0, 0))")
+		suite.T().Log("About to run line #38: r.Line(r.Point(0, 0), r.Point(0, 1), r.Point(0, 0))")
 
 		runAndAssert(suite.Suite, expected_, r.Line(r.Point(0, 0), r.Point(0, 1), r.Point(0, 0)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #38")
+		suite.T().Log("Finished running line #38")
 	}
 
 	{
@@ -290,13 +290,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected geometry of type `Point` but found `LineString`.")
 		/* r.line(r.point(0,0), r.point(1,0), r.line([0,0], [1,0])) */
 
-		fmt.Println("About to run line #40: r.Line(r.Point(0, 0), r.Point(1, 0), r.Line([]interface{}{0, 0}, []interface{}{1, 0}))")
+		suite.T().Log("About to run line #40: r.Line(r.Point(0, 0), r.Point(1, 0), r.Line([]interface{}{0, 0}, []interface{}{1, 0}))")
 
 		runAndAssert(suite.Suite, expected_, r.Line(r.Point(0, 0), r.Point(1, 0), r.Line([]interface{}{0, 0}, []interface{}{1, 0})), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #40")
+		suite.T().Log("Finished running line #40")
 	}
 
 	{
@@ -305,13 +305,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Invalid LinearRing.  Are there antipodal or duplicate vertices? Is it self-intersecting?")
 		/* r.polygon([0,0], [0,0], [0,0], [0,0]) */
 
-		fmt.Println("About to run line #50: r.Polygon([]interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0})")
+		suite.T().Log("About to run line #50: r.Polygon([]interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0}, []interface{}{0, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #50")
+		suite.T().Log("Finished running line #50")
 	}
 
 	{
@@ -320,13 +320,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{[]interface{}{[]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{0, 0}}}, "type": "Polygon", }
 		/* r.polygon([0,0], [0,1], [1,0]) */
 
-		fmt.Println("About to run line #52: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0})")
+		suite.T().Log("About to run line #52: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #52")
+		suite.T().Log("Finished running line #52")
 	}
 
 	{
@@ -335,13 +335,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"$reql_type$": "GEOMETRY", "coordinates": []interface{}{[]interface{}{[]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{0, 0}}}, "type": "Polygon", }
 		/* r.polygon([0,0], [0,1], [1,0], [0,0]) */
 
-		fmt.Println("About to run line #54: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{0, 0})")
+		suite.T().Log("About to run line #54: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{0, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{0, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #54")
+		suite.T().Log("Finished running line #54")
 	}
 
 	{
@@ -350,13 +350,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Invalid LinearRing.  Are there antipodal or duplicate vertices? Is it self-intersecting?")
 		/* r.polygon([0,0], [0,1], [1,0], [-1,0.5]) */
 
-		fmt.Println("About to run line #56: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{-1, 0.5})")
+		suite.T().Log("About to run line #56: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{-1, 0.5})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{1, 0}, []interface{}{-1, 0.5}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #56")
+		suite.T().Log("Finished running line #56")
 	}
 
 	{
@@ -365,13 +365,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected point coordinate pair.  Got 1 element array instead of a 2 element one.")
 		/* r.polygon([0,0], [0,1], [0]) */
 
-		fmt.Println("About to run line #58: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0})")
+		suite.T().Log("About to run line #58: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #58")
+		suite.T().Log("Finished running line #58")
 	}
 
 	{
@@ -380,13 +380,13 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected point coordinate pair.  Got 3 element array instead of a 2 element one.")
 		/* r.polygon([0,0], [0,1], [0,1,0]) */
 
-		fmt.Println("About to run line #60: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 1, 0})")
+		suite.T().Log("About to run line #60: r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 1, 0})")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon([]interface{}{0, 0}, []interface{}{0, 1}, []interface{}{0, 1, 0}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #60")
+		suite.T().Log("Finished running line #60")
 	}
 
 	{
@@ -395,12 +395,12 @@ func (suite *GeoConstructorsSuite) TestCases() {
 		var expected_ Err = err("ReqlQueryLogicError", "Expected geometry of type `Point` but found `LineString`.")
 		/* r.polygon(r.point(0,0), r.point(0,1), r.line([0,0], [0,1])) */
 
-		fmt.Println("About to run line #62: r.Polygon(r.Point(0, 0), r.Point(0, 1), r.Line([]interface{}{0, 0}, []interface{}{0, 1}))")
+		suite.T().Log("About to run line #62: r.Polygon(r.Point(0, 0), r.Point(0, 1), r.Line([]interface{}{0, 0}, []interface{}{0, 1}))")
 
 		runAndAssert(suite.Suite, expected_, r.Polygon(r.Point(0, 0), r.Point(0, 1), r.Line([]interface{}{0, 0}, []interface{}{0, 1})), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #62")
+		suite.T().Log("Finished running line #62")
 	}
 }

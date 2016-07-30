@@ -25,7 +25,7 @@ type SindexStatusSuite struct {
 }
 
 func (suite *SindexStatusSuite) SetupTest() {
-	fmt.Println("Setting up SindexStatusSuite")
+	suite.T().Log("Setting up SindexStatusSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -49,7 +49,7 @@ func (suite *SindexStatusSuite) SetupTest() {
 }
 
 func (suite *SindexStatusSuite) TearDownSuite() {
-	fmt.Println("Tearing down SindexStatusSuite")
+	suite.T().Log("Tearing down SindexStatusSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -61,7 +61,7 @@ func (suite *SindexStatusSuite) TearDownSuite() {
 }
 
 func (suite *SindexStatusSuite) TestCases() {
-	fmt.Println("Running SindexStatusSuite: sindex status")
+	suite.T().Log("Running SindexStatusSuite: sindex status")
 
 	tbl2 := r.DB("test").Table("tbl2")
 	_ = tbl2 // Prevent any noused variable errors
@@ -73,13 +73,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"created": 1, }
 		/* tbl2.index_create("a") */
 
-		fmt.Println("About to run line #7: tbl2.IndexCreate('a')")
+		suite.T().Log("About to run line #7: tbl2.IndexCreate('a')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexCreate("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #7")
+		suite.T().Log("Finished running line #7")
 	}
 
 	{
@@ -88,13 +88,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"created": 1, }
 		/* tbl2.index_create("b") */
 
-		fmt.Println("About to run line #9: tbl2.IndexCreate('b')")
+		suite.T().Log("About to run line #9: tbl2.IndexCreate('b')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexCreate("b"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #9")
+		suite.T().Log("Finished running line #9")
 	}
 
 	{
@@ -103,13 +103,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ int = 2
 		/* tbl2.index_status().count() */
 
-		fmt.Println("About to run line #12: tbl2.IndexStatus().Count()")
+		suite.T().Log("About to run line #12: tbl2.IndexStatus().Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus().Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #12")
+		suite.T().Log("Finished running line #12")
 	}
 
 	{
@@ -118,13 +118,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ int = 1
 		/* tbl2.index_status("a").count() */
 
-		fmt.Println("About to run line #14: tbl2.IndexStatus('a').Count()")
+		suite.T().Log("About to run line #14: tbl2.IndexStatus('a').Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus("a").Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #14")
+		suite.T().Log("Finished running line #14")
 	}
 
 	{
@@ -133,13 +133,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ int = 1
 		/* tbl2.index_status("b").count() */
 
-		fmt.Println("About to run line #16: tbl2.IndexStatus('b').Count()")
+		suite.T().Log("About to run line #16: tbl2.IndexStatus('b').Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus("b").Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #16")
+		suite.T().Log("Finished running line #16")
 	}
 
 	{
@@ -148,13 +148,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ int = 2
 		/* tbl2.index_status("a", "b").count() */
 
-		fmt.Println("About to run line #18: tbl2.IndexStatus('a', 'b').Count()")
+		suite.T().Log("About to run line #18: tbl2.IndexStatus('a', 'b').Count()")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus("a", "b").Count(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #18")
+		suite.T().Log("Finished running line #18")
 	}
 
 	{
@@ -163,13 +163,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"dropped": 1, }
 		/* tbl2.index_drop("a") */
 
-		fmt.Println("About to run line #21: tbl2.IndexDrop('a')")
+		suite.T().Log("About to run line #21: tbl2.IndexDrop('a')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexDrop("a"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #21")
+		suite.T().Log("Finished running line #21")
 	}
 
 	{
@@ -178,13 +178,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"dropped": 1, }
 		/* tbl2.index_drop("b") */
 
-		fmt.Println("About to run line #23: tbl2.IndexDrop('b')")
+		suite.T().Log("About to run line #23: tbl2.IndexDrop('b')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexDrop("b"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #23")
+		suite.T().Log("Finished running line #23")
 	}
 
 	{
@@ -193,13 +193,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ Expected = partial(map[interface{}]interface{}{"inserted": 5000, })
 		/* tbl2.insert(r.range(0, 5000).map({'a':r.row})) */
 
-		fmt.Println("About to run line #28: tbl2.Insert(r.Range(0, 5000).Map(map[interface{}]interface{}{'a': r.Row, }))")
+		suite.T().Log("About to run line #28: tbl2.Insert(r.Range(0, 5000).Map(map[interface{}]interface{}{'a': r.Row, }))")
 
 		runAndAssert(suite.Suite, expected_, tbl2.Insert(r.Range(0, 5000).Map(map[interface{}]interface{}{"a": r.Row, })), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #28")
+		suite.T().Log("Finished running line #28")
 	}
 
 	{
@@ -208,13 +208,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"created": 1, }
 		/* tbl2.index_create("foo") */
 
-		fmt.Println("About to run line #33: tbl2.IndexCreate('foo')")
+		suite.T().Log("About to run line #33: tbl2.IndexCreate('foo')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexCreate("foo"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #33")
+		suite.T().Log("Finished running line #33")
 	}
 
 	{
@@ -223,13 +223,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"created": 1, }
 		/* tbl2.index_create("bar", multi=True) */
 
-		fmt.Println("About to run line #36: tbl2.IndexCreate('bar', r.IndexCreateOpts{Multi: true, })")
+		suite.T().Log("About to run line #36: tbl2.IndexCreate('bar', r.IndexCreateOpts{Multi: true, })")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexCreate("bar", r.IndexCreateOpts{Multi: true, }), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #36")
+		suite.T().Log("Finished running line #36")
 	}
 
 	{
@@ -238,13 +238,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{true, true}
 		/* tbl2.index_status().map(lambda x:x["progress"] < 1) */
 
-		fmt.Println("About to run line #44: tbl2.IndexStatus().Map(func(x r.Term) interface{} { return x.AtIndex('progress').Lt(1)})")
+		suite.T().Log("About to run line #44: tbl2.IndexStatus().Map(func(x r.Term) interface{} { return x.AtIndex('progress').Lt(1)})")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus().Map(func(x r.Term) interface{} { return x.AtIndex("progress").Lt(1)}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #44")
+		suite.T().Log("Finished running line #44")
 	}
 
 	{
@@ -253,13 +253,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{true, true}
 		/* tbl2.index_wait()['ready'] */
 
-		fmt.Println("About to run line #49: tbl2.IndexWait().AtIndex('ready')")
+		suite.T().Log("About to run line #49: tbl2.IndexWait().AtIndex('ready')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait().AtIndex("ready"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #49")
+		suite.T().Log("Finished running line #49")
 	}
 
 	{
@@ -268,13 +268,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ Expected = bag([]interface{}{false, false})
 		/* tbl2.index_wait()['geo'] */
 
-		fmt.Println("About to run line #54: tbl2.IndexWait().AtIndex('geo')")
+		suite.T().Log("About to run line #54: tbl2.IndexWait().AtIndex('geo')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait().AtIndex("geo"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #54")
+		suite.T().Log("Finished running line #54")
 	}
 
 	{
@@ -283,13 +283,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ Expected = bag([]interface{}{false, true})
 		/* tbl2.index_wait()['multi'] */
 
-		fmt.Println("About to run line #57: tbl2.IndexWait().AtIndex('multi')")
+		suite.T().Log("About to run line #57: tbl2.IndexWait().AtIndex('multi')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait().AtIndex("multi"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #57")
+		suite.T().Log("Finished running line #57")
 	}
 
 	{
@@ -298,13 +298,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{false, false}
 		/* tbl2.index_wait()['outdated'] */
 
-		fmt.Println("About to run line #60: tbl2.IndexWait().AtIndex('outdated')")
+		suite.T().Log("About to run line #60: tbl2.IndexWait().AtIndex('outdated')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait().AtIndex("outdated"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #60")
+		suite.T().Log("Finished running line #60")
 	}
 
 	{
@@ -313,13 +313,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"created": 1, }
 		/* tbl2.index_create("quux") */
 
-		fmt.Println("About to run line #63: tbl2.IndexCreate('quux')")
+		suite.T().Log("About to run line #63: tbl2.IndexCreate('quux')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexCreate("quux"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #63")
+		suite.T().Log("Finished running line #63")
 	}
 
 	{
@@ -328,13 +328,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ bool = true
 		/* tbl2.index_status("quux").do(lambda x:(x[0]["index"] == "quux") & (x[0]["progress"] < 1)) */
 
-		fmt.Println("About to run line #66: tbl2.IndexStatus('quux').Do(func(x r.Term) interface{} { return x.AtIndex(0).AtIndex('index').Eq('quux').And(x.AtIndex(0).AtIndex('progress').Lt(1))})")
+		suite.T().Log("About to run line #66: tbl2.IndexStatus('quux').Do(func(x r.Term) interface{} { return x.AtIndex(0).AtIndex('index').Eq('quux').And(x.AtIndex(0).AtIndex('progress').Lt(1))})")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexStatus("quux").Do(func(x r.Term) interface{} { return x.AtIndex(0).AtIndex("index").Eq("quux").And(x.AtIndex(0).AtIndex("progress").Lt(1))}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #66")
+		suite.T().Log("Finished running line #66")
 	}
 
 	{
@@ -343,13 +343,13 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ []interface{} = []interface{}{map[interface{}]interface{}{"index": "quux", "ready": true, }}
 		/* tbl2.index_wait("quux").pluck('index', 'ready') */
 
-		fmt.Println("About to run line #71: tbl2.IndexWait('quux').Pluck('index', 'ready')")
+		suite.T().Log("About to run line #71: tbl2.IndexWait('quux').Pluck('index', 'ready')")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait("quux").Pluck("index", "ready"), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #71")
+		suite.T().Log("Finished running line #71")
 	}
 
 	{
@@ -358,12 +358,12 @@ func (suite *SindexStatusSuite) TestCases() {
 		var expected_ string = "PTYPE<BINARY>"
 		/* tbl2.index_wait("quux").nth(0).get_field('function').type_of() */
 
-		fmt.Println("About to run line #74: tbl2.IndexWait('quux').Nth(0).Field('function').TypeOf()")
+		suite.T().Log("About to run line #74: tbl2.IndexWait('quux').Nth(0).Field('function').TypeOf()")
 
 		runAndAssert(suite.Suite, expected_, tbl2.IndexWait("quux").Nth(0).Field("function").TypeOf(), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #74")
+		suite.T().Log("Finished running line #74")
 	}
 }

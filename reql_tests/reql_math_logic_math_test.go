@@ -25,7 +25,7 @@ type MathLogicMathSuite struct {
 }
 
 func (suite *MathLogicMathSuite) SetupTest() {
-	fmt.Println("Setting up MathLogicMathSuite")
+	suite.T().Log("Setting up MathLogicMathSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MathLogicMathSuite) SetupTest() {
 }
 
 func (suite *MathLogicMathSuite) TearDownSuite() {
-	fmt.Println("Tearing down MathLogicMathSuite")
+	suite.T().Log("Tearing down MathLogicMathSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MathLogicMathSuite) TearDownSuite() {
 }
 
 func (suite *MathLogicMathSuite) TestCases() {
-	fmt.Println("Running MathLogicMathSuite: Tests of nested arithmetic expressions")
+	suite.T().Log("Running MathLogicMathSuite: Tests of nested arithmetic expressions")
 
 
 
@@ -65,12 +65,12 @@ func (suite *MathLogicMathSuite) TestCases() {
 		var expected_ int = 1
 		/* (((4 + 2 * (r.expr(26) % 18)) / 5) - 3) */
 
-		fmt.Println("About to run line #4: r.Add(4, r.Mul(2, r.Expr(26).Mod(18))).Div(5).Sub(3)")
+		suite.T().Log("About to run line #4: r.Add(4, r.Mul(2, r.Expr(26).Mod(18))).Div(5).Sub(3)")
 
 		runAndAssert(suite.Suite, expected_, r.Add(4, r.Mul(2, r.Expr(26).Mod(18))).Div(5).Sub(3), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #4")
+		suite.T().Log("Finished running line #4")
 	}
 }

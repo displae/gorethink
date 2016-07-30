@@ -25,7 +25,7 @@ type MetaCompositeSuite struct {
 }
 
 func (suite *MetaCompositeSuite) SetupTest() {
-	fmt.Println("Setting up MetaCompositeSuite")
+	suite.T().Log("Setting up MetaCompositeSuite")
 	// Use imports to prevent errors
 	time.Now()
 
@@ -44,7 +44,7 @@ func (suite *MetaCompositeSuite) SetupTest() {
 }
 
 func (suite *MetaCompositeSuite) TearDownSuite() {
-	fmt.Println("Tearing down MetaCompositeSuite")
+	suite.T().Log("Tearing down MetaCompositeSuite")
 
 	if suite.session != nil {
 		r.DB("rethinkdb").Table("_debug_scratch").Delete().Exec(suite.session)
@@ -55,7 +55,7 @@ func (suite *MetaCompositeSuite) TearDownSuite() {
 }
 
 func (suite *MetaCompositeSuite) TestCases() {
-	fmt.Println("Running MetaCompositeSuite: Tests meta operations in composite queries")
+	suite.T().Log("Running MetaCompositeSuite: Tests meta operations in composite queries")
 
 
 
@@ -65,13 +65,13 @@ func (suite *MetaCompositeSuite) TestCases() {
 		var expected_ map[interface{}]interface{} = map[interface{}]interface{}{"dbs_created": 3, "config_changes": arrlen(3), }
 		/* r.expr([1,2,3]).for_each(r.db_create('db_' + r.row.coerce_to('string'))) */
 
-		fmt.Println("About to run line #4: r.Expr([]interface{}{1, 2, 3}).ForEach(r.DBCreate(r.Add('db_', r.Row.CoerceTo('string'))))")
+		suite.T().Log("About to run line #4: r.Expr([]interface{}{1, 2, 3}).ForEach(r.DBCreate(r.Add('db_', r.Row.CoerceTo('string'))))")
 
 		runAndAssert(suite.Suite, expected_, r.Expr([]interface{}{1, 2, 3}).ForEach(r.DBCreate(r.Add("db_", r.Row.CoerceTo("string")))), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #4")
+		suite.T().Log("Finished running line #4")
 	}
 
 	{
@@ -82,13 +82,13 @@ func (suite *MetaCompositeSuite) TestCases() {
 r.expr([1,2,3]).for_each(lambda i:
 r.db(db_name).table_create('tbl_' + i.coerce_to('string')))) */
 
-		fmt.Println("About to run line #8: r.DBList().SetDifference([]interface{}{'rethinkdb', 'test'}).ForEach(func(db_name r.Term) interface{} { return r.Expr([]interface{}{1, 2, 3}).ForEach(func(i r.Term) interface{} { return r.DB(db_name).TableCreate(r.Add('tbl_', i.CoerceTo('string')))})})")
+		suite.T().Log("About to run line #8: r.DBList().SetDifference([]interface{}{'rethinkdb', 'test'}).ForEach(func(db_name r.Term) interface{} { return r.Expr([]interface{}{1, 2, 3}).ForEach(func(i r.Term) interface{} { return r.DB(db_name).TableCreate(r.Add('tbl_', i.CoerceTo('string')))})})")
 
 		runAndAssert(suite.Suite, expected_, r.DBList().SetDifference([]interface{}{"rethinkdb", "test"}).ForEach(func(db_name r.Term) interface{} { return r.Expr([]interface{}{1, 2, 3}).ForEach(func(i r.Term) interface{} { return r.DB(db_name).TableCreate(r.Add("tbl_", i.CoerceTo("string")))})}), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #8")
+		suite.T().Log("Finished running line #8")
 	}
 
 	{
@@ -97,12 +97,12 @@ r.db(db_name).table_create('tbl_' + i.coerce_to('string')))) */
 		var expected_ Expected = partial(map[interface{}]interface{}{"dbs_dropped": 3, "tables_dropped": 9, })
 		/* r.db_list().set_difference(["rethinkdb", "test"]).for_each(r.db_drop(r.row)) */
 
-		fmt.Println("About to run line #13: r.DBList().SetDifference([]interface{}{'rethinkdb', 'test'}).ForEach(r.DBDrop(r.Row))")
+		suite.T().Log("About to run line #13: r.DBList().SetDifference([]interface{}{'rethinkdb', 'test'}).ForEach(r.DBDrop(r.Row))")
 
 		runAndAssert(suite.Suite, expected_, r.DBList().SetDifference([]interface{}{"rethinkdb", "test"}).ForEach(r.DBDrop(r.Row)), suite.session, r.RunOpts{
-			GroupFormat: "map",
 			GeometryFormat: "raw",
+			GroupFormat: "map",
 		})
-		fmt.Println("Finished running line #13")
+		suite.T().Log("Finished running line #13")
 	}
 }
